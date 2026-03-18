@@ -24,9 +24,6 @@ import "./assets/plugins/smartwizard/css/smart_wizard.css";
 // import components
 import Header2 from "./components/Header2";
 import Footer from "./components/Footer";
-import Footer2 from "./components/Footer2";
-import Footer3 from "./components/Footer3";
-import Footer4 from "./components/Footer4";
 
 // import pages
 import Home from "./pages/Home";
@@ -65,10 +62,8 @@ import Menu2 from "./element/Menu2";
 import { IMAGE } from "./constent/theme";
 import { Home4 } from "./pages/Home4";
 import Home5 from "./pages/Home5";
-import Footer5 from "./components/Footer5";
 import Home6 from "./pages/Home6";
 import Header3 from "./components/Header3";
-import Footer6 from "./components/Footer6";
 import { useState } from "react";
 import AdminLoginPage from "./dashboard/pages/AdminLoginPage";
 import AdminLandingPage from "./dashboard/pages/AdminLandingPage";
@@ -109,7 +104,7 @@ function App() {
               />
               <Route path="/blog-details" element={<BlogDetail />} />
               <Route path="/portfolio-grid-3" element={<PortfolioGrid2 />} />
-              <Route path="/portfolio-grid-4" element={<PortfolioGrid3 />} />
+              <Route path="/portfolio" element={<PortfolioGrid3 />} />
               <Route path="/shop-columns" element={<ShopColumn />} />
               <Route
                 path="/shop-column-sidebar"
@@ -187,7 +182,7 @@ function Layout4() {
     <>
       <Header2 />
       <Outlet />
-      <Footer2 />
+      <Footer />
     </>
   );
 }
@@ -199,7 +194,7 @@ function Layout5() {
         <Menu2 button={""} img={IMAGE.logo3} img2={IMAGE.logoBlack} />
       </header>
       <Outlet />
-      <Footer3 />
+      <Footer />
     </>
   );
 }
@@ -226,7 +221,7 @@ function Layout6() {
         />
       </header>
       <Outlet />
-      <Footer4 />
+      <Footer />
     </>
   );
 }
@@ -253,7 +248,7 @@ function Layout7() {
         />
       </header>
       <Outlet />
-      <Footer5 />
+      <Footer />
     </>
   );
 }
@@ -263,7 +258,7 @@ function Layout8() {
     <>
       <Header3 />
       <Outlet />
-      <Footer6 />
+      <Footer />
     </>
   );
 }

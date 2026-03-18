@@ -35,7 +35,7 @@ const Home2Slider = () => {
                                     place where your confidence comes first.</p>
 
                                 <div className="home-banner-button">
-                                    <button>Get A Qutoe</button>
+                                    <button onClick={() => { navigat('/booking') }}>Book Now</button>
                                     <button onClick={() => { navigat('/about-us') }}>About Us</button>
                                 </div>
                             </div>

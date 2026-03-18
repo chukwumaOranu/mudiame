@@ -5,7 +5,9 @@ const {
   updatePermission,
   deletePermission,
   assignPermissionsToUser,
+  syncPermissionCatalog,
 } = require('../models/permission.model');
+const { permissionCatalog } = require('../utils/permissionCatalog');
 
 const listAdminPermissions = async (_req, res) => {
   try {
@@ -90,10 +92,28 @@ const assignAdminPermissionsToUser = async (req, res) => {
   }
 };
 
+const getPermissionCatalog = async (_req, res) => {
+  return res.status(200).json({ items: permissionCatalog });
+};
+
+const syncAdminPermissionCatalog = async (_req, res) => {
+  try {
+    const result = await syncPermissionCatalog();
+    return res.status(200).json({
+      message: 'Permission catalog synced successfully.',
+      ...result,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: 'Unable to sync permission catalog.', error: error.message });
+  }
+};
+
 module.exports = {
   listAdminPermissions,
   createAdminPermission,
   updateAdminPermission,
   deleteAdminPermission,
   assignAdminPermissionsToUser,
+  getPermissionCatalog,
+  syncAdminPermissionCatalog,
 };

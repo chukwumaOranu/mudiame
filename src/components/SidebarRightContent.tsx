@@ -5,18 +5,11 @@ import {
   getClassicBlogCategories,
   getClassicBlogPosts,
 } from "../api/classicBlogApi";
+import { usePortfolioItemsQuery } from "../hooks/usePortfolio";
 
 import LightGallery from 'lightgallery/react';
 import lgThumbnail from 'lightgallery/plugins/thumbnail';
 import lgZoom from 'lightgallery/plugins/zoom';
-const sidebarBlog = [
-    { img: IMAGE.gallery_smallPic1 },
-    { img: IMAGE.gallery_smallPic2 },
-    { img: IMAGE.gallery_smallPic3 },
-    { img: IMAGE.gallery_smallPic4 },
-    { img: IMAGE.gallery_smallPic5 },
-    { img: IMAGE.gallery_smallPic6 },
-]
 const SidebarRightContent = () => {
     return (
         <>
@@ -37,9 +30,11 @@ export const BlogRightContent = () => {
         queryKey: ["classic-blog", "sidebar-categories"],
         queryFn: getClassicBlogCategories,
     });
+    const portfolioQuery = usePortfolioItemsQuery(1, 6);
 
     const recentPosts = recentPostsQuery.data?.items || [];
     const categories = categoriesQuery.data?.items || [];
+    const galleryItems = portfolioQuery.data?.items || [];
 
     const formatDate = (value: string | null) => {
         if (!value) {
@@ -115,21 +110,25 @@ export const BlogRightContent = () => {
                 </div>
                 <div className="widget widget_gallery gallery-grid-3">
                     <h6 className="widget-title style-1">Our Gallery</h6>
+                    {portfolioQuery.isLoading && <p>Loading gallery...</p>}
+                    {portfolioQuery.isError && (
+                        <p style={{ color: "#9f1c1c" }}>Unable to load gallery items.</p>
+                    )}
                     <ul>
                         <LightGallery
                             speed={500}
                             plugins={[lgThumbnail, lgZoom]}
                         >
-                            {sidebarBlog.map((item, index) => (
-                                <Link to={item.img} key={index} style={{ display: 'unset' }}>
+                            {galleryItems.map((item) => (
+                                <a href={item.image_url} key={item.id} style={{ display: 'unset' }}>
                                     <li>
                                         <div className="dlab-post-thum">
                                             <samp className="dlab-img-overlay1 dlab-img-effect zoom-slow">
-                                                <img src={item.img} alt="" />
+                                                <img src={item.image_url} alt={item.title} />
                                             </samp>
                                         </div>
                                     </li>
-                                </Link>
+                                </a>
 
                             ))}
                         </LightGallery>

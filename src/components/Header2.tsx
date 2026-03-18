@@ -11,11 +11,16 @@ const Header2 = () => {
             <div className="dlab-topbar-left">
               <ul>
                 <li>
-                  <i className="fa fa-phone m-r5"></i> 001 1234 6789
+                  <i className="fa fa-phone m-r5"></i>
+                  <a href="tel:08098866406" className="text-white">08098866406</a>
                 </li>
                 <li>
-                  <i className="fa fa-map-marker m-r5"></i> 6701 Democracy Blvd,
-                  Suite 300, USA
+                  <i className="fa fa-map-marker m-r5"></i> Lekki, Lagos State,
+                  Nigeria
+                </li>
+                <li>
+                  <i className="fa fa-envelope m-r5"></i>
+                  <a href="mailto:mudiamelush@gmail.com" className="text-white">mudiamelush@gmail.com</a>
                 </li>
               </ul>
             </div>
@@ -89,7 +94,7 @@ const Header2 = () => {
           { label: "Book Now", link: "/booking" },
           { label: "Services", link: "/services" },
           { label: "Blog", link: "/classic" },
-          { label: "Our Works", link: "/portfolio-grid-4" },
+          { label: "Our Works", link: "/portfolio" },
           { label: "Contact Us", link: "/contect-us" },
         ]}
       />

@@ -6,40 +6,8 @@ import OurTeamslider from "../components/OurTeamslider"
 import { useState } from "react"
 import ModalVideo from "react-modal-video"
 import OurBlogSlider from "../components/OurBlogSlider"
+import { serviceItems } from "../data/services"
 
-
-const cards = [
-    {
-        title: 'Gel Nail Polish',
-        icon: 'flaticon-barbershop',
-        description: 'Vegan, cruelty-free salon-quality formula with high-gloss color and up to 3 weeks wear.',
-    },
-    {
-        title: 'Lip Glosses',
-        icon: 'flaticon-makeup',
-        description: 'High-shine glosses created for comfortable all-day wear and effortless beauty.',
-    },
-    {
-        title: 'Eyeshadow Palette',
-        icon: 'flaticon-makeup-1',
-        description: 'Matte, shimmer, and metallic shades with strong pigment payoff and smooth blendability.',
-    },
-    {
-        title: 'Lip Pencil',
-        icon: 'flaticon-woman-1',
-        description: 'Smooth-glide precision lip pencil for shape, definition, and longer-lasting lipstick wear.',
-    },
-    {
-        title: 'Face & Foot Masks',
-        icon: 'flaticon-woman',
-        description: 'Nourishing mask options selected to support complete beauty and self-care routines.',
-    },
-    {
-        title: 'Hair & Body Oils',
-        icon: 'flaticon-candle-1',
-        description: 'Revitalizing oils for healthy-looking hair, soft skin, and everyday confidence.',
-    },
-]
 const Services = () => {
     const [open, setOpen] = useState(false)
     return (
@@ -66,14 +34,14 @@ const Services = () => {
                                 </p>
                             </div>
                             <div className="row">
-                                {cards.map((item, index) => (
-                                    <div className="col-lg-4 col-md-6 col-sm-6 p-lr0" key={index}>
+                                {serviceItems.map((item) => (
+                                    <div className="col-lg-4 col-md-6 col-sm-6 p-lr0" key={item.slug}>
                                         <div className="icon-bx-wraper center p-a30">
-                                            <div className="icon-lg radius m-b20"> <Link to="/services-details" className="icon-cell">
+                                            <div className="icon-lg radius m-b20"> <Link to={`/services-details?slug=${encodeURIComponent(item.slug)}`} className="icon-cell">
                                                 <i className={item.icon}></i></Link> </div>
                                             <div className="icon-content">
-                                                <h5 className="dez-tilte"><Link to="/services-details">{item.title}</Link></h5>
-                                                <p>{item.description}</p>
+                                                <h5 className="dez-tilte"><Link to={`/services-details?slug=${encodeURIComponent(item.slug)}`}>{item.title}</Link></h5>
+                                                <p>{item.summary}</p>
                                             </div>
                                         </div>
                                     </div>

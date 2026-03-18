@@ -4,11 +4,13 @@ import {
   assignPermissionsToUser,
   createAdminPermission,
   deleteAdminPermission,
+  getAdminPermissionCatalog,
   getAdminPermissions,
   getAdminUsers,
+  syncAdminPermissionCatalog,
   updateAdminPermission,
 } from '../../api/adminApi';
-import type { AdminPermission } from '../../types/admin';
+import type { AdminPermission, AdminPermissionCatalogGroup } from '../../types/admin';
 
 const PermissionsPanel = () => {
   const queryClient = useQueryClient();
@@ -21,6 +23,11 @@ const PermissionsPanel = () => {
   const usersQuery = useQuery({
     queryKey: ['dashboard', 'users'],
     queryFn: getAdminUsers,
+  });
+
+  const permissionCatalogQuery = useQuery({
+    queryKey: ['dashboard', 'permission-catalog'],
+    queryFn: getAdminPermissionCatalog,
   });
 
   const [editing, setEditing] = useState<AdminPermission | null>(null);
@@ -80,6 +87,17 @@ const PermissionsPanel = () => {
     onError: (error) => setErrorMessage((error as Error).message),
   });
 
+  const syncCatalogMutation = useMutation({
+    mutationFn: syncAdminPermissionCatalog,
+    onSuccess: (data) => {
+      setSuccessMessage(data.message || 'Permission catalog synced successfully.');
+      setErrorMessage('');
+      queryClient.invalidateQueries({ queryKey: ['dashboard', 'permissions'] });
+      queryClient.invalidateQueries({ queryKey: ['dashboard', 'permission-catalog'] });
+    },
+    onError: (error) => setErrorMessage((error as Error).message),
+  });
+
   const assignMutation = useMutation({
     mutationFn: () => assignPermissionsToUser(selectedUserId as number, selectedPermissionIds),
     onSuccess: (data) => {
@@ -118,6 +136,7 @@ const PermissionsPanel = () => {
 
   const permissions = permissionsQuery.data?.items || [];
   const users = usersQuery.data?.items || [];
+  const permissionCatalog: AdminPermissionCatalogGroup[] = permissionCatalogQuery.data?.items || [];
 
   return (
     <div>
@@ -160,6 +179,51 @@ const PermissionsPanel = () => {
         {errorMessage && <p className="admin-form-error">{errorMessage}</p>}
         {successMessage && <p className="admin-success-msg">{successMessage}</p>}
       </form>
+
+      <div className="admin-section-content">
+        <div className="admin-blog-form">
+          <h3 className="admin-subtitle">Feature Permission Catalog</h3>
+          <p className="m-b20">
+            New features should register their permission keys in the catalog first. Use sync to push any missing keys into the database and grant them to the admin role.
+          </p>
+          <div className="admin-actions-inline">
+            <button
+              type="button"
+              className="admin-login-btn"
+              onClick={() => {
+                setSuccessMessage('');
+                setErrorMessage('');
+                syncCatalogMutation.mutate();
+              }}
+              disabled={syncCatalogMutation.isPending}
+            >
+              {syncCatalogMutation.isPending ? 'Syncing Catalog...' : 'Sync Feature Permissions'}
+            </button>
+          </div>
+          {permissionCatalog.length > 0 && (
+            <div className="admin-blog-table-wrap" style={{ marginTop: '16px' }}>
+              <table className="admin-blog-table">
+                <thead>
+                  <tr>
+                    <th>Feature</th>
+                    <th>Permissions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {permissionCatalog.map((group) => (
+                    <tr key={group.feature}>
+                      <td>{group.label}</td>
+                      <td>
+                        {group.permissions.map((permission) => permission.key).join(', ')}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
 
       <div className="admin-section-content">
         <form className="admin-blog-form" onSubmit={onAssignSubmit}>

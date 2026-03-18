@@ -246,6 +246,12 @@
   max-width: 900px;
 }
 
+.admin-bookings-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
 .admin-blog-grid-two {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -469,6 +475,10 @@
   }
 
   .admin-blog-grid-two {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-bookings-grid {
     grid-template-columns: 1fr;
   }
 

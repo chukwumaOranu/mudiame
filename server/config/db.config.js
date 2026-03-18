@@ -1,9 +1,6 @@
 const path = require("path");
-const dotenv = require("dotenv");
 const mysql = require("mysql2/promise");
-
-// Load environment variables from server/.env.development when available.
-dotenv.config({ path: path.resolve(__dirname, "../.env.development") });
+require("./env.config");
 
 const dbPool = mysql.createPool({
   host: process.env.DB_HOST || "127.0.0.1",

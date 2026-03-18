@@ -68,7 +68,7 @@ const Footer6 = () => {
               fill="white"
             />
           </svg>
-          <h6>@beautyzone</h6>
+          <h6>@mudiame</h6>
         </Link>
         <div className="container-fluid">
           <div className="row">

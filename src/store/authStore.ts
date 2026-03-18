@@ -20,7 +20,7 @@ export const useAuthStore = create<AuthState>()(
       clearSession: () => set({ token: null, user: null }),
     }),
     {
-      name: 'admin-auth-storage',
+      name: 'mudiame-admin-auth-storage-v1',
     }
   )
 );

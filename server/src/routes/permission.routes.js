@@ -6,6 +6,8 @@ const {
   updateAdminPermission,
   deleteAdminPermission,
   assignAdminPermissionsToUser,
+  getPermissionCatalog,
+  syncAdminPermissionCatalog,
 } = require('../controllers/permission.controller');
 const { authMiddleware, requirePermission } = require('../middleware/auth.middleware');
 
@@ -14,6 +16,8 @@ const router = express.Router();
 router.use(authMiddleware);
 
 router.get('/', requirePermission('permissions.read'), listAdminPermissions);
+router.get('/catalog', requirePermission('permissions.read'), getPermissionCatalog);
+router.post('/sync', requirePermission('permissions.create'), syncAdminPermissionCatalog);
 
 router.post(
   '/',

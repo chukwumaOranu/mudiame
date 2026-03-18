@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminTopbar from "../components/AdminTopbar";
 import BlogListPanel from "../components/BlogListPanel";
+import BookingsPanel from "../components/BookingsPanel";
 import CategoriesPanel from "../components/CategoriesPanel";
 import CreateBlogPanel from "../components/CreateBlogPanel";
 import PermissionsPanel from "../components/PermissionsPanel";
 import PortfolioPanel from "../components/PortfolioPanel";
+import FooterGalleryPanel from "../components/FooterGalleryPanel";
 import UsersPanel from "../components/UsersPanel";
 import { useCurrentUserQuery, useLogoutMutation } from "../../hooks/useAuth";
 import { useAuthStore } from "../../store/authStore";
@@ -20,7 +22,8 @@ type AdminView =
   | "users"
   | "permissions"
   | "bookings"
-  | "portfolio";
+  | "portfolio"
+  | "footerGallery";
 
 const menuItems: { key: AdminView; label: string }[] = [
   { key: "overview", label: "Overview" },
@@ -31,6 +34,7 @@ const menuItems: { key: AdminView; label: string }[] = [
   { key: "permissions", label: "Permissions" },
   { key: "bookings", label: "Bookings" },
   { key: "portfolio", label: "Portfolio" },
+  { key: "footerGallery", label: "Footer Gallery" },
 ];
 
 const OverviewWelcome = ({ userName }: { userName: string }) => (
@@ -151,8 +155,8 @@ const AdminLandingPage = () => {
         return {
           title: "Bookings",
           description:
-            "This is your Bookings view. Add booking lists, customer details, and booking status management here.",
-          content: null,
+            "Manage product bookings here, track payment choice, and update booking status as customers move through the process.",
+          content: <BookingsPanel />,
         };
       case "portfolio":
         return {
@@ -160,6 +164,13 @@ const AdminLandingPage = () => {
           description:
             "Manage portfolio gallery items shown on the home page. Create, update, reorder, and delete images by category.",
           content: <PortfolioPanel />,
+        };
+      case "footerGallery":
+        return {
+          title: "Footer Gallery",
+          description:
+            "Manage the footer gallery strip shown across the site. Upload up to sixteen images, replace them, reorder them, and remove old ones.",
+          content: <FooterGalleryPanel />,
         };
       default:
         return {

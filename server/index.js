@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("./config/env.config");
 
 const express = require("express");
 const path = require("path");
@@ -12,6 +12,9 @@ const categoryRoutes = require("./src/routes/category.routes");
 const adminUserRoutes = require("./src/routes/adminUser.routes");
 const permissionRoutes = require("./src/routes/permission.routes");
 const portfolioRoutes = require("./src/routes/portfolio.routes");
+const footerGalleryRoutes = require("./src/routes/footerGallery.routes");
+const bookingRoutes = require("./src/routes/booking.routes");
+const contactRoutes = require("./src/routes/contact.routes");
 
 const app = express();
 
@@ -58,6 +61,9 @@ app.use("/api/classic-blog/categories", categoryRoutes);
 app.use("/api/admin/users", adminUserRoutes);
 app.use("/api/admin/permissions", permissionRoutes);
 app.use("/api/portfolio", portfolioRoutes);
+app.use("/api/footer-gallery", footerGalleryRoutes);
+app.use("/api/bookings", bookingRoutes);
+app.use("/api/contact", contactRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

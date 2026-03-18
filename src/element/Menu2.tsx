@@ -54,7 +54,7 @@ export const MenuItemes1 = [
         MenuLinks: 'Our Portfolio',
         sub_menu: [
             { sub_menu_item: 'Portfolio Grid 3', link: '/portfolio-grid-3' },
-            { sub_menu_item: 'Portfolio Grid 4', link: '/portfolio-grid-4' },
+            { sub_menu_item: 'Portfolio', link: '/portfolio' },
         ]
     },
     {

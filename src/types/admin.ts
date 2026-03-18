@@ -19,3 +19,13 @@ export type AdminPermission = {
   description: string | null;
   user_count: number;
 };
+
+export type AdminPermissionCatalogGroup = {
+  feature: string;
+  label: string;
+  permissions: Array<{
+    key: string;
+    name: string;
+    description: string;
+  }>;
+};

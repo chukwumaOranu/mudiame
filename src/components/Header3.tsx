@@ -42,11 +42,17 @@ const Header3 = () => {
                   <ul className="d-flex align-items-center">
                     <li>
                       <i className="ti-location-pin"></i>
-                      <strong>Our Location</strong>145 N Los Ave, NY
+                      <strong>Our Location</strong>Lekki, Lagos State, Nigeria
                     </li>
                     <li>
                       <i className="ti-mobile"></i>
-                      <strong>Phone Number</strong>9547854007
+                      <strong>Phone Number</strong>
+                      <a href="tel:08098866406">08098866406</a>
+                    </li>
+                    <li>
+                      <i className="ti-email"></i>
+                      <strong>Email</strong>
+                      <a href="mailto:mudiamelush@gmail.com">mudiamelush@gmail.com</a>
                     </li>
                   </ul>
                 </div>

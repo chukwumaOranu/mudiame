@@ -8,13 +8,7 @@ import { useEffect, useState } from "react";
 import OurTeamslider from "../components/OurTeamslider";
 import Testymonial from "../components/Testymonial";
 import OurBlogSlider from "../components/OurBlogSlider";
-
-const cards = [
-  { icon: "flaticon-woman", title: "We are Professional" },
-  { icon: "flaticon-mortar", title: "Lux Cosmetic" },
-  { icon: "flaticon-candle", title: "Medical Education" },
-  { icon: "flaticon-sauna-1", title: "The Newest Equipment" },
-];
+import { featuredServiceItems } from "../data/services";
 const Home = () => {
   const [open, setOpen] = useState(false);
   useEffect(() => {
@@ -218,8 +212,8 @@ export const HomeCards = () => {
       >
         <div className="container">
           <div className="row">
-            {cards.map((item, index) => (
-              <div className="col-lg-3 col-md-6 col-sm-6 m-b30" key={index}>
+            {featuredServiceItems.map((item) => (
+              <div className="col-lg-3 col-md-6 col-sm-6 m-b30" key={item.slug}>
                 <div className="icon-bx-wraper p-lr15 p-b30 p-t20 bg-white center fly-box-ho">
                   <div className="icon-lg m-b10">
                     <span className="icon-cell text-primary">
@@ -227,13 +221,10 @@ export const HomeCards = () => {
                     </span>{" "}
                   </div>
                   <div className="icon-content">
-                    <h6 className="dlab-tilte">{item.title}</h6>
-                    <p>
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry.
-                    </p>
+                    <h6 className="dlab-tilte">{item.shortTitle}</h6>
+                    <p>{item.summary}</p>
                     <Link
-                      to="/services-details"
+                      to={`/services-details?slug=${encodeURIComponent(item.slug)}`}
                       className="site-button-secondry"
                     >
                       Read More

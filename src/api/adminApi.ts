@@ -1,4 +1,4 @@
-import type { AdminPermission, AdminUser } from '../types/admin';
+import type { AdminPermission, AdminPermissionCatalogGroup, AdminUser } from '../types/admin';
 import { useAuthStore } from '../store/authStore';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
@@ -64,6 +64,22 @@ export const getAdminPermissions = async (): Promise<{ items: AdminPermission[] 
     headers: authHeaders(),
   });
   return parseJson<{ items: AdminPermission[] }>(response);
+};
+
+export const getAdminPermissionCatalog = async (): Promise<{ items: AdminPermissionCatalogGroup[] }> => {
+  const response = await fetch(`${API_BASE_URL}/api/admin/permissions/catalog`, {
+    headers: authHeaders(),
+  });
+  return parseJson<{ items: AdminPermissionCatalogGroup[] }>(response);
+};
+
+export const syncAdminPermissionCatalog = async () => {
+  const response = await fetch(`${API_BASE_URL}/api/admin/permissions/sync`, {
+    method: 'POST',
+    headers: authHeaders(),
+    body: JSON.stringify({}),
+  });
+  return parseJson<{ message: string; synced_count: number; features: string[] }>(response);
 };
 
 export const createAdminPermission = async (payload: {

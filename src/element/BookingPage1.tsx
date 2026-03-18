@@ -1,24 +1,23 @@
-import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 
-const BookingPage1 = () => {
-  const [category, setCategory] = useState("Select category");
-  const [product, setProduct] = useState("Select product");
-  const [consultant, setConsultant] = useState("Any consultant");
-  const [startFrom, setStartFrom] = useState("9:00 am");
-  const [finishBy, setFinishBy] = useState("6:00 pm");
-
-  const categories = ["Nails", "Lips", "Eyes", "Self-Care"];
-  const products = [
-    "Gel Nail Polish",
-    "Lip Gloss",
-    "Eyeshadow Palette",
-    "Lip Pencil",
-    "Face Mask",
-    "Foot Mask",
-    "Hair Oil",
-    "Body Oil",
-  ];
+const BookingPage1 = ({
+  form,
+  setForm,
+  products,
+}: {
+  form: {
+    category: string;
+    product: string;
+    consultant: string;
+    preferredDate: string;
+    startFrom: string;
+    finishBy: string;
+  };
+  setForm: React.Dispatch<React.SetStateAction<any>>;
+  products: Array<{ category: string; name: string }>;
+}) => {
+  const categories = Array.from(new Set(products.map((item) => item.category)));
+  const productOptions = products.filter((item) => item.category === form.category);
   const consultants = ["Any consultant", "Ada", "Tosin", "Chioma", "Mira"];
   const timeOptions = [
     "9:00 am",
@@ -45,11 +44,20 @@ const BookingPage1 = () => {
               className="dropdown-basic booking-options booking-option-1"
               style={{ gap: "40%" }}
             >
-              {category}
+              {form.category}
             </Dropdown.Toggle>
             <Dropdown.Menu>
               {categories.map((item) => (
-                <Dropdown.Item key={item} onClick={() => setCategory(item)}>
+                <Dropdown.Item
+                  key={item}
+                  onClick={() =>
+                    setForm((prev: any) => ({
+                      ...prev,
+                      category: item,
+                      product: products.find((product) => product.category === item)?.name || prev.product,
+                    }))
+                  }
+                >
                   {item}
                 </Dropdown.Item>
               ))}
@@ -65,12 +73,12 @@ const BookingPage1 = () => {
               className="dropdown-basic booking-options"
               style={{ gap: "40%" }}
             >
-              {product}
+              {form.product}
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              {products.map((item) => (
-                <Dropdown.Item key={item} onClick={() => setProduct(item)}>
-                  {item}
+              {productOptions.map((item) => (
+                <Dropdown.Item key={item.name} onClick={() => setForm((prev: any) => ({ ...prev, product: item.name }))}>
+                  {item.name}
                 </Dropdown.Item>
               ))}
             </Dropdown.Menu>
@@ -85,11 +93,11 @@ const BookingPage1 = () => {
               className="dropdown-basic booking-options"
               style={{ gap: "40%" }}
             >
-              {consultant}
+              {form.consultant}
             </Dropdown.Toggle>
             <Dropdown.Menu>
               {consultants.map((item) => (
-                <Dropdown.Item key={item} onClick={() => setConsultant(item)}>
+                <Dropdown.Item key={item} onClick={() => setForm((prev: any) => ({ ...prev, consultant: item }))}>
                   {item}
                 </Dropdown.Item>
               ))}
@@ -104,6 +112,8 @@ const BookingPage1 = () => {
             className="form-control"
             placeholder="Select Date"
             type="date"
+            value={form.preferredDate}
+            onChange={(event) => setForm((prev: any) => ({ ...prev, preferredDate: event.target.value }))}
           />
         </div>
 
@@ -115,11 +125,11 @@ const BookingPage1 = () => {
               className="dropdown-basic booking-options"
               style={{ gap: "40%" }}
             >
-              {startFrom}
+              {form.startFrom}
             </Dropdown.Toggle>
             <Dropdown.Menu>
               {timeOptions.map((item) => (
-                <Dropdown.Item key={item} onClick={() => setStartFrom(item)}>
+                <Dropdown.Item key={item} onClick={() => setForm((prev: any) => ({ ...prev, startFrom: item }))}>
                   {item}
                 </Dropdown.Item>
               ))}
@@ -135,11 +145,11 @@ const BookingPage1 = () => {
               className="dropdown-basic booking-options"
               style={{ gap: "40%" }}
             >
-              {finishBy}
+              {form.finishBy}
             </Dropdown.Toggle>
             <Dropdown.Menu>
               {timeOptions.map((item) => (
-                <Dropdown.Item key={item} onClick={() => setFinishBy(item)}>
+                <Dropdown.Item key={item} onClick={() => setForm((prev: any) => ({ ...prev, finishBy: item }))}>
                   {item}
                 </Dropdown.Item>
               ))}

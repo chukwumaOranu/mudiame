@@ -1,4 +1,5 @@
 const { dbPool } = require('../../config/db.config');
+const { flattenPermissionCatalog } = require('../utils/permissionCatalog');
 
 const slugify = (text) =>
   String(text || '')
@@ -103,10 +104,61 @@ const assignPermissionsToUser = async (userId, permissionIds = [], grantedBy = n
   }
 };
 
+const syncPermissionCatalog = async () => {
+  const permissions = flattenPermissionCatalog();
+  const connection = await dbPool.getConnection();
+
+  try {
+    await connection.beginTransaction();
+
+    await connection.execute(
+      `INSERT INTO app_roles (role_key, role_name, description, is_system)
+       VALUES ('admin', 'Admin', 'System administrator role', 1)
+       ON DUPLICATE KEY UPDATE
+         role_name = VALUES(role_name),
+         description = VALUES(description),
+         is_system = VALUES(is_system)`
+    );
+
+    for (const permission of permissions) {
+      await connection.execute(
+        `INSERT INTO app_permissions (permission_key, permission_name, description)
+         VALUES (?, ?, ?)
+         ON DUPLICATE KEY UPDATE
+           permission_name = VALUES(permission_name),
+           description = VALUES(description)`,
+        [permission.permission_key, permission.permission_name, permission.description || null]
+      );
+    }
+
+    await connection.execute(
+      `INSERT INTO app_role_permissions (role_id, permission_id)
+       SELECT r.id, p.id
+       FROM app_roles r
+       INNER JOIN app_permissions p ON p.permission_key IN (${permissions.map(() => '?').join(', ')})
+       WHERE r.role_key = 'admin'
+       ON DUPLICATE KEY UPDATE role_id = role_id`,
+      permissions.map((permission) => permission.permission_key)
+    );
+
+    await connection.commit();
+    return {
+      synced_count: permissions.length,
+      features: [...new Set(permissions.map((permission) => permission.feature))],
+    };
+  } catch (error) {
+    await connection.rollback();
+    throw error;
+  } finally {
+    connection.release();
+  }
+};
+
 module.exports = {
   listPermissions,
   createPermission,
   updatePermission,
   deletePermission,
   assignPermissionsToUser,
+  syncPermissionCatalog,
 };

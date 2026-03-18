@@ -1,152 +1,68 @@
-import { Swiper, SwiperSlide } from "swiper/react";
 import { IMAGE } from "../constent/theme";
-import { Autoplay } from "swiper/modules";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import FooterGalleryCarousel from "./FooterGalleryCarousel";
 
-const galleryBlog = [
-  { img: IMAGE.gallery_thumbPic1 },
-  { img: IMAGE.gallery_thumbPic2 },
-  { img: IMAGE.gallery_thumbPic3 },
-  { img: IMAGE.gallery_thumbPic4 },
-  { img: IMAGE.gallery_thumbPic5 },
-  { img: IMAGE.gallery_thumbPic6 },
-  { img: IMAGE.gallery_thumbPic7 },
-  { img: IMAGE.gallery_thumbPic8 },
-  { img: IMAGE.gallery_thumbPic1 },
-  { img: IMAGE.gallery_thumbPic2 },
-  { img: IMAGE.gallery_thumbPic3 },
-  { img: IMAGE.gallery_thumbPic4 },
-  { img: IMAGE.gallery_thumbPic5 },
-  { img: IMAGE.gallery_thumbPic6 },
-  { img: IMAGE.gallery_thumbPic7 },
-  { img: IMAGE.gallery_thumbPic8 },
+const fallbackGalleryItems = [
+  { thumbnail_url: IMAGE.gallery_thumbPic1, image_url: IMAGE.image_galleryPic1, title: "Footer Gallery 1" },
+  { thumbnail_url: IMAGE.gallery_thumbPic2, image_url: IMAGE.image_galleryPic2, title: "Footer Gallery 2" },
+  { thumbnail_url: IMAGE.gallery_thumbPic3, image_url: IMAGE.image_galleryPic3, title: "Footer Gallery 3" },
+  { thumbnail_url: IMAGE.gallery_thumbPic4, image_url: IMAGE.image_galleryPic4, title: "Footer Gallery 4" },
+  { thumbnail_url: IMAGE.gallery_thumbPic5, image_url: IMAGE.image_galleryPic5, title: "Footer Gallery 5" },
+  { thumbnail_url: IMAGE.gallery_thumbPic6, image_url: IMAGE.image_galleryPic6, title: "Footer Gallery 6" },
+  { thumbnail_url: IMAGE.gallery_thumbPic7, image_url: IMAGE.image_galleryPic7, title: "Footer Gallery 7" },
+  { thumbnail_url: IMAGE.gallery_thumbPic8, image_url: IMAGE.image_galleryPic8, title: "Footer Gallery 8" },
+  { thumbnail_url: IMAGE.gallery_thumbPic1, image_url: IMAGE.image_galleryPic1, title: "Footer Gallery 9" },
+  { thumbnail_url: IMAGE.gallery_thumbPic2, image_url: IMAGE.image_galleryPic2, title: "Footer Gallery 10" },
+  { thumbnail_url: IMAGE.gallery_thumbPic3, image_url: IMAGE.image_galleryPic3, title: "Footer Gallery 11" },
+  { thumbnail_url: IMAGE.gallery_thumbPic4, image_url: IMAGE.image_galleryPic4, title: "Footer Gallery 12" },
+  { thumbnail_url: IMAGE.gallery_thumbPic5, image_url: IMAGE.image_galleryPic5, title: "Footer Gallery 13" },
+  { thumbnail_url: IMAGE.gallery_thumbPic6, image_url: IMAGE.image_galleryPic6, title: "Footer Gallery 14" },
+  { thumbnail_url: IMAGE.gallery_thumbPic7, image_url: IMAGE.image_galleryPic7, title: "Footer Gallery 15" },
+  { thumbnail_url: IMAGE.gallery_thumbPic8, image_url: IMAGE.image_galleryPic8, title: "Footer Gallery 16" },
 ];
 
-const galleryImage = [
-  IMAGE.image_galleryPic1,
-  IMAGE.image_galleryPic2,
-  IMAGE.image_galleryPic3,
-  IMAGE.image_galleryPic4,
-  IMAGE.image_galleryPic5,
-  IMAGE.image_galleryPic6,
-  IMAGE.image_galleryPic7,
-  IMAGE.image_galleryPic8,
-  IMAGE.image_galleryPic1,
-  IMAGE.image_galleryPic2,
-  IMAGE.image_galleryPic3,
-  IMAGE.image_galleryPic4,
-  IMAGE.image_galleryPic5,
-  IMAGE.image_galleryPic6,
-  IMAGE.image_galleryPic7,
-  IMAGE.image_galleryPic8,
+const companyLinks = [
+  { label: "Home", to: "/" },
+  { label: "About Us", to: "/about-us" },
+  { label: "Services", to: "/services" },
+  { label: "Book Now", to: "/booking" },
+  { label: "Contact Us", to: "/contect-us" },
+];
+
+const usefulLinks = [
+  { label: "Our Products", to: "/services" },
+  { label: "Beauty Blog", to: "/classic" },
+  { label: "Our Works", to: "/portfolio" },
+  { label: "Book Appointment", to: "/booking" },
+  { label: "Get In Touch", to: "/contect-us" },
 ];
 
 const Footer = () => {
-  const [ind, setInd] = useState(0);
-
-  function swiperGalleryBtn(e: number) {
-    setInd(e);
-    document
-      .querySelector(".image_gallery_div")
-      ?.classList.add("image_gallery");
-    document
-      .querySelector(".all_images")
-      ?.setAttribute("src", galleryImage[ind]);
-  }
-
-  function removeClassHandler() {
-    document
-      .querySelector(".image_gallery_div")
-      ?.classList.remove("image_gallery");
-  }
-
-  const prevHandler = () => {
-    setInd((ind) => (ind > 0 ? ind - 1 : 15));
-    document
-      .querySelector(".all_images")
-      ?.setAttribute("src", galleryImage[ind]);
-  };
-  const nextHandler = () => {
-    setInd((ind) => (ind < 15 ? ind + 1 : 0));
-    console.log(ind);
-
-    document
-      .querySelector(".all_images")
-      ?.setAttribute("src", galleryImage[ind]);
-  };
-
   return (
     <>
       <footer className="site-footer text-uppercase footer-white">
-        <div className="portfolio-gallery ">
-          <div className="container-fluid">
-            <div className="row">
-              <Swiper
-                className="carousel-gallery dots-none owl-none owl-carousel owl-btn-center-lr owl-btn-3 owl-theme owl-btn-center-lr owl-btn-1 mfp-gallery"
-                slidesPerView={10}
-                speed={1500}
-                modules={[Autoplay]}
-                autoplay={{
-                  delay: 1200,
-                }}
-                loop={true}
-                breakpoints={{
-                  1188: { slidesPerView: 10 },
-                  1100: { slidesPerView: 9 },
-                  1000: { slidesPerView: 8 },
-                  900: { slidesPerView: 7 },
-                  800: { slidesPerView: 6 },
-                  700: { slidesPerView: 5 },
-                  200: { slidesPerView: 4 },
-                }}
-              >
-                {galleryBlog.map((item, index) => (
-                  <SwiperSlide className="swiper-slide" key={index}>
-                    <Link
-                      onClick={() => {
-                        swiperGalleryBtn(index);
-                      }}
-                      to={"#"}
-                      className="dynamic-gallery-demo swiper-slide mfp-link  dlab-media dlab-img-overlay3"
-                    >
-                      <img
-                        className="footer-slide-image"
-                        src={item.img}
-                        alt=""
-                      />
-                    </Link>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
-          </div>
-        </div>
-        <div className="image_gallery_div">
-          <div className="overlay" onClick={removeClassHandler}></div>
-          <div className="mfp">
-            <button onClick={removeClassHandler} className="mfp-close">
-              <i className="ti-close"></i>
-            </button>
-            <img className="all_images" alt="" />
-          </div>
-          <div className="galleryButtons">
-            <div
-              onClick={prevHandler}
-              className="prev mfp-arrow mfp-arrow-left mfp-prevent-close"
-            ></div>
-            <div
-              onClick={nextHandler}
-              className="next mfp-arrow mfp-arrow-right mfp-prevent-close"
-            ></div>
-          </div>
-        </div>
+        <FooterGalleryCarousel
+          fallbackItems={fallbackGalleryItems}
+          wrapperClassName="portfolio-gallery"
+          swiperClassName="carousel-gallery dots-none owl-none owl-carousel owl-btn-center-lr owl-btn-3 owl-theme owl-btn-center-lr owl-btn-1 mfp-gallery"
+          slidesPerView={10}
+          breakpoints={{
+            1188: { slidesPerView: 10 },
+            1100: { slidesPerView: 9 },
+            1000: { slidesPerView: 8 },
+            900: { slidesPerView: 7 },
+            800: { slidesPerView: 6 },
+            700: { slidesPerView: 5 },
+            200: { slidesPerView: 4 },
+          }}
+        />
         <FooterLinks />
         <BottomFooter />
       </footer>
     </>
   );
 };
+
 export const FooterLinks = () => {
   return (
     <>
@@ -157,21 +73,11 @@ export const FooterLinks = () => {
               <div className="widget widget_services border-0">
                 <h6 className="m-b20">Company</h6>
                 <ul>
-                  <li>
-                    <Link to="/">Home </Link>
-                  </li>
-                  <li>
-                    <Link to="/about-us">About Us </Link>
-                  </li>
-                  <li>
-                    <Link to="/our-team">Our Team</Link>
-                  </li>
-                  <li>
-                    <Link to="/booking">Booking</Link>
-                  </li>
-                  <li>
-                    <Link to="/contect-us">Contact Us</Link>
-                  </li>
+                  {companyLinks.map((item) => (
+                    <li key={item.to}>
+                      <Link to={item.to}>{item.label}</Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -179,21 +85,11 @@ export const FooterLinks = () => {
               <div className="widget widget_services border-0">
                 <h6 className="m-b20">Useful Link</h6>
                 <ul>
-                  <li>
-                    <Link to="/shop-column-sidebar">Shop </Link>
-                  </li>
-                  <li>
-                    <Link to="/shop-checkout">Checkout</Link>
-                  </li>
-                  <li>
-                    <Link to="/shop-cart">Cart</Link>
-                  </li>
-                  <li>
-                    <Link to="/shop-login">Login</Link>
-                  </li>
-                  <li>
-                    <Link to="/shop-register">Register</Link>
-                  </li>
+                  {usefulLinks.map((item) => (
+                    <li key={item.to}>
+                      <Link to={item.to}>{item.label}</Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -203,16 +99,17 @@ export const FooterLinks = () => {
                 <ul>
                   <li>
                     <i className="ti-location-pin"></i>
-                    <strong>address</strong> demo address #8901 Marmora Road Chi
-                    Minh City, Vietnam{" "}
+                    <strong>address</strong> Lekki, Lagos State, Nigeria
                   </li>
                   <li>
                     <i className="ti-mobile"></i>
-                    <strong>phone</strong>0800-123456 (24/7 Support Line)
+                    <strong>phone</strong>
+                    <a href="tel:08098866406">08098866406</a>
                   </li>
                   <li>
                     <i className="ti-email"></i>
-                    <strong>email</strong>info@example.com
+                    <strong>email</strong>
+                    <a href="mailto:mudiamelush@gmail.com">mudiamelush@gmail.com</a>
                   </li>
                 </ul>
               </div>
@@ -221,16 +118,10 @@ export const FooterLinks = () => {
               <div className="widget">
                 <h6 className="m-b30">Subscribe To Our Newsletter</h6>
                 <p className="text-capitalize m-b20">
-                  If you have any questions, you can contact with us so that we
-                  can give you Link satisfying answer. Subscribe to our
-                  newsletter to get our latest products.
+                  Stay in the loop with fresh beauty drops, product updates, and self-care essentials from Mudiame Lush.
                 </p>
                 <div className="subscribe-form m-b20">
-                  <form
-                    className="dzSubscribe"
-                    action="script/mailchamp.php"
-                    method="post"
-                  >
+                  <form className="dzSubscribe" action="script/mailchamp.php" method="post">
                     <div className="dzSubscribeMsg"></div>
                     <div className="input-group">
                       <input
@@ -250,49 +141,24 @@ export const FooterLinks = () => {
                 </div>
                 <ul className="list-inline m-a0">
                   <li>
-                    <Link
-                      target="_blank"
-                      to="https://www.facebook.com/"
-                      className="site-button facebook circle "
-                    >
-                      <i className="fa fa-facebook"></i>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      target="_blank"
-                      to="https://www.google.com/"
-                      className="site-button google-plus circle "
-                    >
-                      <i className="fa fa-google-plus"></i>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      target="_blank"
-                      to="https://www.linkedin.com/"
-                      className="site-button linkedin circle "
-                    >
-                      <i className="fa fa-linkedin"></i>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      target="_blank"
-                      to="https://www.instagram.com/"
-                      className="site-button instagram circle "
-                    >
+                    <a target="_blank" rel="noreferrer" href="https://www.instagram.com/" className="site-button instagram circle ">
                       <i className="fa fa-instagram"></i>
-                    </Link>
+                    </a>
                   </li>
                   <li>
-                    <Link
-                      target="_blank"
-                      to="https://twitter.com/"
-                      className="site-button twitter circle "
-                    >
-                      <i className="fa fa-twitter"></i>
-                    </Link>
+                    <a href="mailto:mudiamelush@gmail.com" className="site-button google-plus circle ">
+                      <i className="fa fa-envelope"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="tel:08098866406" className="site-button twitter circle ">
+                      <i className="fa fa-phone"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a target="_blank" rel="noreferrer" href="https://www.facebook.com/" className="site-button facebook circle ">
+                      <i className="fa fa-facebook"></i>
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -311,26 +177,18 @@ export const BottomFooter = () => {
         <div className="container">
           <div className="row">
             <div className="col-lg-6 col-md-6 col-sm-6 text-center text-md-left">
-              {" "}
               <span>
-                Copyright © 2024{" "}
-                <Link
-                  to="https://dexignzone.com/"
-                  className="dzlink"
-                  target="_blank"
-                >
-                  DexignZone
-                </Link>
-              </span>{" "}
+                Copyright © 2026 Mudiame Lush
+              </span>
             </div>
             <div className="col-lg-6 col-md-6 col-sm-6 text-center text-md-right ">
               <div className="widget-link ">
                 <ul>
                   <li>
-                    <Link to="/contect-us"> Help Desk</Link>
+                    <Link to="/contect-us">Contact Us</Link>
                   </li>
                   <li>
-                    <Link to="/contect-us"> Privacy Policy</Link>
+                    <Link to="/booking">Book Now</Link>
                   </li>
                 </ul>
               </div>
@@ -341,4 +199,5 @@ export const BottomFooter = () => {
     </>
   );
 };
+
 export default Footer;

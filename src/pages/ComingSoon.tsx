@@ -30,7 +30,7 @@ const ComingSoon = () => {
             <div className="coming-soon">
                 <img src={IMAGE.coming_soonBg} alt="" />
                 <div className="coming-soon-content">
-                    <h4>Beautyzone</h4>
+                    <h4>Mudiame</h4>
                     <h1>LANCHING</h1>
                     <h2>VERY SOON.</h2>
                     {date.map((item, index) => {

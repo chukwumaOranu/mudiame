@@ -1,5 +1,5 @@
 import { Link, useSearchParams } from "react-router-dom";
-import { BlogRightContent } from "../components/SidebarRightContent";
+import SidebarRightContent from "../components/SidebarRightContent";
 import { IMAGE } from "../constent/theme";
 import CommonBanner2 from "../element/CommonBanner2";
 import { useClassicBlogPostQuery } from "../hooks/useClassicBlog";
@@ -78,7 +78,7 @@ const BlogDetail = () => {
                 </div>
               )}
             </div>
-            <BlogRightContent />
+            <SidebarRightContent />
           </div>
         </div>
       </div>

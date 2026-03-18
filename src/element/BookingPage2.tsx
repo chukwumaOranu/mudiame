@@ -1,28 +1,34 @@
 const slotColumns = [
   {
-    day: "Tue Mar 03",
+    day: "Morning",
     times: ["9:00 am", "10:00 am", "11:00 am", "1:00 pm", "3:00 pm"],
   },
   {
-    day: "Wed Mar 04",
+    day: "Midday",
     times: ["10:00 am", "11:30 am", "12:30 pm", "2:00 pm", "4:00 pm"],
   },
   {
-    day: "Thu Mar 05",
+    day: "Afternoon",
     times: ["9:30 am", "11:00 am", "12:00 pm", "2:30 pm", "5:00 pm"],
   },
   {
-    day: "Fri Mar 06",
+    day: "Evening",
     times: ["10:00 am", "12:00 pm", "1:00 pm", "3:00 pm", "5:30 pm"],
   },
 ];
 
-const BookingPage2 = () => {
+const BookingPage2 = ({
+  form,
+  setForm,
+}: {
+  form: { selectedSlot: string; preferredDate: string };
+  setForm: React.Dispatch<React.SetStateAction<any>>;
+}) => {
   return (
     <div id="service" className="step-content">
       <h6 className="m-b5">Available Time Slots</h6>
       <p className="m-b30">
-        Choose a preferred slot for your selected Mudiame Lush product booking.
+        Choose a preferred slot for your selected Mudiame Lush product booking{form.preferredDate ? ` on ${form.preferredDate}` : ""}.
       </p>
       <div className="book-time row">
         {slotColumns.map((column) => (
@@ -35,7 +41,11 @@ const BookingPage2 = () => {
               <input type="checkbox" /> {column.day}
             </label>
             {column.times.map((time) => (
-              <label className="btn" key={time}>
+              <label
+                className={`btn ${form.selectedSlot === time ? "active-time" : ""}`}
+                key={time}
+                onClick={() => setForm((prev: any) => ({ ...prev, selectedSlot: time }))}
+              >
                 {" "}
                 {time}
                 <input type="checkbox" />
