@@ -3,6 +3,7 @@ import { IMAGE } from "../constent/theme";
 import CommonBanner2 from "../element/CommonBanner2";
 import { useClassicBlogPostsQuery } from "../hooks/useClassicBlog";
 import { useState } from "react";
+import Seo from "../components/Seo";
 
 const Classic = () => {
   const [page, setPage] = useState(1);
@@ -29,7 +30,13 @@ const Classic = () => {
 
   return (
     <div className="page-content bg-white">
-      <CommonBanner2 title={"Blog Classic"} img={IMAGE.banner1} />
+      <Seo
+        title="Beauty Blog"
+        description="Read beauty tips, product guides, and self-care insights from Mudiame Lush."
+        canonicalPath="/blog"
+        keywords={["beauty blog", "Mudiame Lush blog", "beauty tips Nigeria", "self-care blog"]}
+      />
+      <CommonBanner2 title={"Beauty Blog"} img={IMAGE.banner1} />
       <div className="content-area">
         <div className="container max-w900">
           {blogQuery.isLoading && <p>Loading blog posts...</p>}
@@ -40,7 +47,7 @@ const Classic = () => {
           {posts.map((post) => (
             <div className="blog-post blog-lg blog-style-1" key={post.id}>
               <div className="dlab-post-media dlab-img-effect zoom-slow radius-sm">
-                <Link to={`/blog-details?slug=${encodeURIComponent(post.slug)}`}>
+                <Link to={`/blog/${encodeURIComponent(post.slug)}`}>
                   <img src={post.featured_image_url || IMAGE.blogPic1} alt={post.title} />
                 </Link>
               </div>
@@ -50,12 +57,12 @@ const Classic = () => {
                     <li className="post-date">{formatDate(post.published_at)}</li>
                     <li className="post-author">
                       By{" "}
-                      <Link to={`/blog-details?slug=${encodeURIComponent(post.slug)}`}>
+                      <Link to={`/blog/${encodeURIComponent(post.slug)}`}>
                         {post.author.display_name}
                       </Link>
                     </li>
                     <li className="post-comment">
-                      <Link to={`/blog-details?slug=${encodeURIComponent(post.slug)}`}>
+                      <Link to={`/blog/${encodeURIComponent(post.slug)}`}>
                         {post.metrics.comment_count}
                       </Link>
                     </li>
@@ -63,7 +70,7 @@ const Classic = () => {
                 </div>
                 <div className="dlab-post-title ">
                   <h4 className="post-title font-24">
-                    <Link to={`/blog-details?slug=${encodeURIComponent(post.slug)}`}>
+                    <Link to={`/blog/${encodeURIComponent(post.slug)}`}>
                       {post.title}
                     </Link>
                   </h4>
@@ -78,7 +85,7 @@ const Classic = () => {
                 </div>
                 <div className="dlab-post-readmore blog-share">
                   <Link
-                    to={`/blog-details?slug=${encodeURIComponent(post.slug)}`}
+                    to={`/blog/${encodeURIComponent(post.slug)}`}
                     title="READ MORE"
                     rel="bookmark"
                     className="site-button-link border-link black"

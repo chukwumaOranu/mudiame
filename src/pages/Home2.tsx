@@ -7,39 +7,46 @@ import Home2Portfolio from "../components/Home2Portfolio";
 import Testymonial from "../components/Testymonial";
 import OurBlogSlider from "../components/OurBlogSlider";
 import { useEffect } from "react";
+import Seo from "../components/Seo";
 
 const cards = [
   {
+    slug: "gel-nail-polish",
     title: "Gel Nail Polish",
     icon: "flaticon-barbershop",
     description:
       "Vegan and cruelty-free gel polish with rich color and long-wear shine built for everyday glam.",
   },
   {
+    slug: "lip-glosses",
     title: "Lip Glosses",
     icon: "flaticon-makeup",
     description:
       "High-shine lip gloss formulas created for comfortable all-day wear across every look.",
   },
   {
+    slug: "eye-shadow-palette",
     title: "Eyeshadow Palette",
     icon: "flaticon-makeup-1",
     description:
       "A curated mix of matte, shimmer, and metallic shades with smooth blendability and strong payoff.",
   },
   {
+    slug: "lip-pencil",
     title: "Lip Pencil",
     icon: "flaticon-woman-1",
     description:
       "Creamy, precise lip pencils designed to define, shape, and help your lipstick last longer.",
   },
   {
+    slug: null,
     title: "Face & Foot Masks",
     icon: "flaticon-woman",
     description:
       "Nourishing self-care masks selected to refresh skin and support a complete beauty routine.",
   },
   {
+    slug: null,
     title: "Hair & Body Oils",
     icon: "flaticon-candle-1",
     description:
@@ -53,6 +60,26 @@ const Home2 = () => {
   }, []);
   return (
     <div className="page-content">
+      <Seo
+        title="Beauty Essentials for Everyday Glam"
+        description="Discover Mudiame Lush, a Nigerian beauty brand offering gel nail polish, lip glosses, eyeshadow palettes, lip pencils, and self-care essentials."
+        canonicalPath="/"
+        keywords={["Mudiame Lush", "Nigerian beauty brand", "beauty essentials", "lip gloss", "gel nail polish"]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Mudiame Lush",
+          url: "https://mudiamelush.com/",
+          email: "mudiamelush@gmail.com",
+          telephone: "08098866406",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Lekki",
+            addressRegion: "Lagos State",
+            addressCountry: "NG",
+          },
+        }}
+      />
       <Home2Slider />
       <div
         className="section-full bg-white content-inner-2"
@@ -87,7 +114,7 @@ const Home2 = () => {
                   elegance for every mood and occasion.
                 </p>
                 <Link
-                  to="/services-details"
+                  to="/services"
                   className="site-button white outline outline-2"
                 >
                   Read More
@@ -117,7 +144,7 @@ const Home2 = () => {
                   Lush product is selected or formulated for quality,
                   affordability, and visible results.
                 </p>
-                <Link to="/services-details" className="site-button white">
+                <Link to="/services" className="site-button white">
                   Read More
                 </Link>
               </div>
@@ -154,13 +181,13 @@ const Home2 = () => {
                 <div className="icon-bx-wraper center p-a30">
                   <div className="icon-lg radius m-b20">
                     {" "}
-                    <Link to="/services-details" className="icon-cell">
+                    <Link to={item.slug ? `/services/${encodeURIComponent(item.slug)}` : "/services"} className="icon-cell">
                       <i className={item.icon}></i>
                     </Link>{" "}
                   </div>
                   <div className="icon-content">
                     <h5 className="dez-tilte">
-                      <Link to="/services-details">{item.title}</Link>
+                      <Link to={item.slug ? `/services/${encodeURIComponent(item.slug)}` : "/services"}>{item.title}</Link>
                     </h5>
                     <p>
                       {item.description}

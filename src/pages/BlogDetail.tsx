@@ -1,12 +1,14 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import SidebarRightContent from "../components/SidebarRightContent";
 import { IMAGE } from "../constent/theme";
 import CommonBanner2 from "../element/CommonBanner2";
 import { useClassicBlogPostQuery } from "../hooks/useClassicBlog";
+import Seo from "../components/Seo";
 
 const BlogDetail = () => {
+  const { slug: slugParam } = useParams();
   const [searchParams] = useSearchParams();
-  const slug = searchParams.get("slug");
+  const slug = slugParam || searchParams.get("slug");
   const postQuery = useClassicBlogPostQuery(slug);
   const post = postQuery.data?.item;
 
@@ -27,6 +29,29 @@ const BlogDetail = () => {
 
   return (
     <div className="page-content bg-white">
+      <Seo
+        title={post?.title || "Beauty Blog"}
+        description={post?.excerpt || "Read beauty tips, product guides, and self-care insights from Mudiame Lush."}
+        canonicalPath={post ? `/blog/${post.slug}` : "/blog"}
+        type="article"
+        keywords={post?.categories.map((category) => category.name)}
+        jsonLd={
+          post
+            ? {
+                "@context": "https://schema.org",
+                "@type": "Article",
+                headline: post.title,
+                description: post.excerpt || post.content || undefined,
+                datePublished: post.published_at || undefined,
+                dateModified: post.updated_at,
+                author: {
+                  "@type": "Person",
+                  name: post.author.display_name,
+                },
+              }
+            : undefined
+        }
+      />
       <CommonBanner2 title={post?.title || "Blog Details"} img={IMAGE.banner1} />
       <div className="content-area">
         <div className="container">

@@ -7,11 +7,6 @@ export const MenuItemes1 = [
         className: 'sub-menu-down',
         sub_menu: [
             { sub_menu_item: 'Home', link: '/' },
-            { sub_menu_item: 'Home-2', link: '/home-2' },
-            { sub_menu_item: 'Home-3', link: '/home-3' },
-            { sub_menu_item: 'Home-4', link: '/home-4' },
-            { sub_menu_item: 'Home-5', link: '/home-5' },
-            { sub_menu_item: 'Home-6', link: '/home-6' },
         ]
     },
     {
@@ -20,14 +15,7 @@ export const MenuItemes1 = [
         sub_menu: [
             { sub_menu_item: 'About Us', link: '/about-us' },
             { sub_menu_item: 'Booking', link: '/booking' },
-            { sub_menu_item: 'Our Team', link: '/our-team' },
-            { sub_menu_item: 'Under Maintenance', link: '/under-maintenance' },
-            { sub_menu_item: 'Light Gallery', link: '/light-gallery' },
-            { sub_menu_item: 'Coming Soon', link: '/coming-soon' },
-            { sub_menu_item: 'Error 404', link: '/error-404' },
-            { sub_menu_item: 'Login', link: '/login' },
-            { sub_menu_item: 'Register', link: '/registor' },
-            { sub_menu_item: 'Contact Us', link: '/contect-us' },
+            { sub_menu_item: 'Contact Us', link: '/contact-us' },
         ]
     },
     {
@@ -35,39 +23,18 @@ export const MenuItemes1 = [
         className: 'sub-menu-down',
         sub_menu: [
             { sub_menu_item: 'Services', link: '/services' },
-            { sub_menu_item: 'Services Details', link: '/services-details' },
         ]
     },
     {
         MenuLinks: 'Blog',
         sub_menu: [
-            { sub_menu_item: 'Classic', link: '/classic' },
-            { sub_menu_item: 'Classic Sidebar', link: '/classic-sidebar' },
-            { sub_menu_item: 'Detailed Grid', link: '/detailed-grid' },
-            { sub_menu_item: 'Detailed Grid Sidebar', link: '/detailed-grid-sidebar' },
-            { sub_menu_item: 'Left Image Sidebar', link: '/left-image-sidebar' },
-            { sub_menu_item: 'Blog Details', link: '/blog-details' },
-
+            { sub_menu_item: 'Beauty Blog', link: '/blog' },
         ]
     },
     {
         MenuLinks: 'Our Portfolio',
         sub_menu: [
-            { sub_menu_item: 'Portfolio Grid 3', link: '/portfolio-grid-3' },
             { sub_menu_item: 'Portfolio', link: '/portfolio' },
-        ]
-    },
-    {
-        MenuLinks: 'Shop',
-        sub_menu: [
-            { sub_menu_item: 'Shop Columns', link: '/shop-columns' },
-            { sub_menu_item: 'Shop Columns Sidebar', link: '/shop-column-sidebar' },
-            { sub_menu_item: 'Product Details', link: '/product-details' },
-            { sub_menu_item: 'Cart', link: '/shop-cart' },
-            { sub_menu_item: 'Checkout', link: '/shop-checkout' },
-            { sub_menu_item: 'Wishlist', link: '/shop-wishlist' },
-            { sub_menu_item: 'Shop Login', link: '/shop-login' },
-            { sub_menu_item: 'Shop Register', link: '/shop-register' },
         ]
     },
 ];

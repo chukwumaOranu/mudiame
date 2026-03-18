@@ -26,15 +26,15 @@ const companyLinks = [
   { label: "About Us", to: "/about-us" },
   { label: "Services", to: "/services" },
   { label: "Book Now", to: "/booking" },
-  { label: "Contact Us", to: "/contect-us" },
+  { label: "Contact Us", to: "/contact-us" },
 ];
 
 const usefulLinks = [
   { label: "Our Products", to: "/services" },
-  { label: "Beauty Blog", to: "/classic" },
+  { label: "Beauty Blog", to: "/blog" },
   { label: "Our Works", to: "/portfolio" },
   { label: "Book Appointment", to: "/booking" },
-  { label: "Get In Touch", to: "/contect-us" },
+  { label: "Get In Touch", to: "/contact-us" },
 ];
 
 const Footer = () => {
@@ -185,7 +185,7 @@ export const BottomFooter = () => {
               <div className="widget-link ">
                 <ul>
                   <li>
-                    <Link to="/contect-us">Contact Us</Link>
+                    <Link to="/contact-us">Contact Us</Link>
                   </li>
                   <li>
                     <Link to="/booking">Book Now</Link>

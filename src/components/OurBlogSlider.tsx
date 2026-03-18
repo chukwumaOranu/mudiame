@@ -54,7 +54,7 @@ const OurBlogSlider = () => {
             <SwiperSlide className="item" key={item.id}>
               <div className="blog-post blog-grid blog-style-1">
                 <div className="dlab-post-media dlab-img-effect radius-sm">
-                  <Link to={`/blog-details?slug=${encodeURIComponent(item.slug)}`}>
+                  <Link to={`/blog/${encodeURIComponent(item.slug)}`}>
                     <img
                       width="700"
                       height="500"
@@ -68,7 +68,7 @@ const OurBlogSlider = () => {
                     <ul className="d-flex align-items-center">
                       <li className="post-date">{formatDate(item.published_at)}</li>
                       <li className="post-comment">
-                        <Link to={`/blog-details?slug=${encodeURIComponent(item.slug)}`}>
+                        <Link to={`/blog/${encodeURIComponent(item.slug)}`}>
                           {item.metrics.comment_count}
                         </Link>{" "}
                       </li>
@@ -76,14 +76,14 @@ const OurBlogSlider = () => {
                   </div>
                   <div className="dlab-post-title ">
                     <h5 className="post-title font-20">
-                      <Link to={`/blog-details?slug=${encodeURIComponent(item.slug)}`}>
+                      <Link to={`/blog/${encodeURIComponent(item.slug)}`}>
                         {item.title}
                       </Link>
                     </h5>
                   </div>
                   <div className="dlab-post-readmore blog-share">
                     <Link
-                      to={`/blog-details?slug=${encodeURIComponent(item.slug)}`}
+                      to={`/blog/${encodeURIComponent(item.slug)}`}
                       title="READ MORE"
                       rel="bookmark"
                       className="site-button-link border-link black"

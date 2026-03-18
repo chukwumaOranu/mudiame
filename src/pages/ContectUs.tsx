@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import CommonBanner from "../element/CommonBanner";
 import { IMAGE } from "../constent/theme";
 import { sendContactMessage } from "../api/contactApi";
+import Seo from "../components/Seo";
 
 const quickContact = [
   {
@@ -60,6 +61,17 @@ const ContectUs = () => {
 
   return (
     <div className="page-content bg-white">
+      <Seo
+        title="Contact Us"
+        description="Contact Mudiame Lush in Lekki, Lagos for bookings, product enquiries, and beauty support."
+        canonicalPath="/contact-us"
+        keywords={["contact Mudiame Lush", "Lekki beauty brand", "beauty enquiries Lagos", "Mudiame contact"]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          name: "Contact Mudiame Lush",
+        }}
+      />
       <CommonBanner title={"Contact Us"} image={IMAGE.banner1} />
       <div className="section-full content-inner bg-white contact-style-1">
         <div className="container">

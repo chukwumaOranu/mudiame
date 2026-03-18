@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom"
 import { IMAGE } from "../constent/theme"
 import CommonBanner from "../element/CommonBanner"
-import { HomeCards } from "./Home"
+import HomeCards from "../components/HomeCards"
 import OurTeamslider from "../components/OurTeamslider"
 import { useState } from "react"
 import ModalVideo from "react-modal-video"
 import OurBlogSlider from "../components/OurBlogSlider"
 import { serviceItems } from "../data/services"
+import Seo from "../components/Seo"
 
 const Services = () => {
     const [open, setOpen] = useState(false)
@@ -19,6 +20,12 @@ const Services = () => {
                 onClose={() => setOpen(false)}
             />
             <div className="page-content bg-white">
+                <Seo
+                    title="Services"
+                    description="Explore Mudiame Lush products and beauty essentials, including gel nail polish, lip glosses, eyeshadow palettes, lip pencils, and self-care products."
+                    canonicalPath="/services"
+                    keywords={["Mudiame services", "beauty products Nigeria", "gel nail polish", "lip glosses", "eyeshadow palette"]}
+                />
                 <CommonBanner title={'Our Services'} image={IMAGE.banner1} />
                 <div className="content-block">
                     <div className="section-full content-inner-2 bg-white hair-services">
@@ -37,10 +44,10 @@ const Services = () => {
                                 {serviceItems.map((item) => (
                                     <div className="col-lg-4 col-md-6 col-sm-6 p-lr0" key={item.slug}>
                                         <div className="icon-bx-wraper center p-a30">
-                                            <div className="icon-lg radius m-b20"> <Link to={`/services-details?slug=${encodeURIComponent(item.slug)}`} className="icon-cell">
+                                            <div className="icon-lg radius m-b20"> <Link to={`/services/${encodeURIComponent(item.slug)}`} className="icon-cell">
                                                 <i className={item.icon}></i></Link> </div>
                                             <div className="icon-content">
-                                                <h5 className="dez-tilte"><Link to={`/services-details?slug=${encodeURIComponent(item.slug)}`}>{item.title}</Link></h5>
+                                                <h5 className="dez-tilte"><Link to={`/services/${encodeURIComponent(item.slug)}`}>{item.title}</Link></h5>
                                                 <p>{item.summary}</p>
                                             </div>
                                         </div>

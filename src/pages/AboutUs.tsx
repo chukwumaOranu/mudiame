@@ -4,11 +4,18 @@ import OurPricing from "../components/OurPricing"
 import Testymonial from "../components/Testymonial"
 import { IMAGE } from "../constent/theme"
 import CommonBanner from "../element/CommonBanner"
+import Seo from "../components/Seo"
 
 const AboutUs = () => {
     return (
         <>
             <div className="page-content bg-white">
+                <Seo
+                    title="About Mudiame Lush"
+                    description="Learn about Mudiame Lush, a vibrant Nigerian beauty brand rooted in quality, creativity, confidence, and complete self-care."
+                    canonicalPath="/about-us"
+                    keywords={["About Mudiame Lush", "beauty brand Nigeria", "Lekki beauty brand", "self-care products Lagos"]}
+                />
                 <CommonBanner title={'About Us'} image={IMAGE.banner1} />
                 <div className="content-block">
                     <div className="section-full content-inner overlay-white-middle" style={{ backgroundImage: `url(${IMAGE.backgroundBg1}), url(${IMAGE.backgroundBg2})`, backgroundPosition: 'bottom, top', backgroundSize: '100%', backgroundRepeat: 'no-repeat' }}>

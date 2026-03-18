@@ -88,7 +88,7 @@ export const BlogRightContent = () => {
                                 <div className="dlab-post-info">
                                     <div className="dlab-post-header">
                                         <h6 className="post-title">
-                                            <Link to={`/blog-details?slug=${encodeURIComponent(item.slug)}`}>
+                                            <Link to={`/blog/${encodeURIComponent(item.slug)}`}>
                                                 {item.title}
                                             </Link>
                                         </h6>
@@ -97,7 +97,7 @@ export const BlogRightContent = () => {
                                         <ul className="d-flex align-items-center">
                                             <li className="post-date">{formatDate(item.published_at)}</li>
                                             <li className="post-comment">
-                                                <Link to={`/blog-details?slug=${encodeURIComponent(item.slug)}`}>
+                                                <Link to={`/blog/${encodeURIComponent(item.slug)}`}>
                                                     {item.metrics.comment_count}
                                                 </Link>
                                             </li>
@@ -143,7 +143,7 @@ export const BlogRightContent = () => {
                         )}
                         {categories.map((item) => (
                             <li key={item.id}>
-                                <Link to={`/classic-sidebar`}>
+                                <Link to="/blog">
                                     {item.name} {typeof item.post_count === "number" ? `(${item.post_count})` : ""}
                                 </Link>
                             </li>

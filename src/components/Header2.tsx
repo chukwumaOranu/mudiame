@@ -93,9 +93,9 @@ const Header2 = () => {
           { label: "About us", link: "/about-us" },
           { label: "Book Now", link: "/booking" },
           { label: "Services", link: "/services" },
-          { label: "Blog", link: "/classic" },
+          { label: "Blog", link: "/blog" },
           { label: "Our Works", link: "/portfolio" },
-          { label: "Contact Us", link: "/contect-us" },
+          { label: "Contact Us", link: "/contact-us" },
         ]}
       />
     </header>

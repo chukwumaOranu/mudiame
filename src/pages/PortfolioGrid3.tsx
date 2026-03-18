@@ -5,6 +5,7 @@ import lgZoom from "lightgallery/plugins/zoom";
 import { IMAGE } from "../constent/theme";
 import CommonBanner2 from "../element/CommonBanner2";
 import { usePortfolioItemsQuery } from "../hooks/usePortfolio";
+import Seo from "../components/Seo";
 
 const PortfolioGrid3 = () => {
   const portfolioQuery = usePortfolioItemsQuery(1, 100);
@@ -25,6 +26,12 @@ const PortfolioGrid3 = () => {
 
   return (
     <div className="page-content bg-white">
+      <Seo
+        title="Portfolio"
+        description="Explore Mudiame Lush portfolio highlights, beauty looks, and product showcases from the latest gallery uploads."
+        canonicalPath="/portfolio"
+        keywords={["Mudiame portfolio", "beauty gallery", "portfolio Lagos", "beauty brand gallery"]}
+      />
       <CommonBanner2 title={"Portfolio"} img={IMAGE.banner1} />
       <div className="content-block">
         <div className="section-full content-inner-2 portfolio-box">

@@ -15,6 +15,7 @@ import {
   createBookingRequest,
   getPublicBookingOptions,
 } from "../api/bookingApi";
+import Seo from "../components/Seo";
 
 const convertDisplayTimeToSqlTime = (value: string) => {
   const twentyFourHourMatch = value.trim().match(/^(\d{2}):(\d{2})(?::(\d{2}))?$/);
@@ -156,7 +157,13 @@ const Booking = () => {
   return (
     <>
       <div className="page-content bg-white">
-        <CommonBanner title={"Product Booking"} image={IMAGE.banner1} />
+        <Seo
+          title="Book a Service"
+          description="Book a Mudiame Lush beauty service online, choose your preferred product and time, and complete payment by card or after service."
+          canonicalPath="/booking"
+          keywords={["book beauty service", "Mudiame booking", "beauty appointment Lagos", "book nail polish service"]}
+        />
+        <CommonBanner title={"Book a Service"} image={IMAGE.banner1} />
         <div className="content-block">
           <div className="section-full content-inner-2">
             <div className="container">

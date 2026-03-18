@@ -1,11 +1,17 @@
 import { Link } from "react-router-dom"
 import { IMAGE } from "../constent/theme"
 import CommonBanner from "../element/CommonBanner"
+import Seo from "../components/Seo"
 
 const Error404 = () => {
     return (
         <>
             <div className="page-content bg-white">
+                <Seo
+                    title="Page Not Found"
+                    description="The page you are looking for could not be found."
+                    noindex={true}
+                />
                 <CommonBanner title={'Error 404'} image={IMAGE.banner1} />
                 <div className="section-full content-inner-3 error-page" style={{ backgroundImage: `url(${IMAGE.backgroundBg6})`, backgroundSize: 'cover' }}>
                     <div className="container">

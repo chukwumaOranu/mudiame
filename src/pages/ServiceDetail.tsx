@@ -1,9 +1,10 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { IMAGE } from "../constent/theme";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import { useRef } from "react";
 import CommonBanner2 from "../element/CommonBanner2";
 import { findServiceBySlug, serviceItems } from "../data/services";
+import Seo from "../components/Seo";
 
 const slider = [
   { img: IMAGE.blog_gridPic1 },
@@ -15,12 +16,37 @@ const slider = [
 ];
 
 const ServiceDetail = () => {
+  const { slug: slugParam } = useParams();
   const [searchParams] = useSearchParams();
-  const selectedService = findServiceBySlug(searchParams.get("slug"));
+  const selectedService = findServiceBySlug(slugParam || searchParams.get("slug"));
   const swiperRef = useRef<SwiperRef | null>(null);
 
   return (
     <div className="page-content bg-white">
+      <Seo
+        title={selectedService.title}
+        description={selectedService.summary}
+        canonicalPath={`/services/${selectedService.slug}`}
+        keywords={selectedService.highlights}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: selectedService.title,
+          description: selectedService.summary,
+          brand: {
+            "@type": "Brand",
+            name: "Mudiame Lush",
+          },
+          offers: selectedService.price
+            ? {
+                "@type": "Offer",
+                priceCurrency: "NGN",
+                price: selectedService.price.replace(/[^\d]/g, ""),
+                availability: "https://schema.org/InStock",
+              }
+            : undefined,
+        }}
+      />
       <CommonBanner2 title={selectedService.title} img={IMAGE.banner1} />
       <div className="content-block">
         <div className="section-full content-inner-2">
@@ -31,7 +57,7 @@ const ServiceDetail = () => {
                   <ul className="service-list m-b30">
                     {serviceItems.map((item) => (
                       <li key={item.slug} className={item.slug === selectedService.slug ? "active" : ""}>
-                        <Link to={`/services-details?slug=${encodeURIComponent(item.slug)}`}>{item.title}</Link>
+                        <Link to={`/services/${encodeURIComponent(item.slug)}`}>{item.title}</Link>
                       </li>
                     ))}
                   </ul>
@@ -70,18 +96,18 @@ const ServiceDetail = () => {
                     <SwiperSlide className="item" key={index}>
                       <div className="dlab-box service-iconbox">
                         <div className="dlab-media dlab-img-overlay5">
-                          <Link to={`/services-details?slug=${encodeURIComponent(selectedService.slug)}`}>
+                          <Link to={`/services/${encodeURIComponent(selectedService.slug)}`}>
                             <img src={item.img} alt={selectedService.title} />
                           </Link>
                         </div>
                         <div className="dlab-info p-a30 p-t60 border-1 bg-white text-center">
                           <div className="icon-bx-sm radius bg-white m-b20">
-                            <Link to={`/services-details?slug=${encodeURIComponent(selectedService.slug)}`} className="icon-cell">
+                            <Link to={`/services/${encodeURIComponent(selectedService.slug)}`} className="icon-cell">
                               <i className={selectedService.icon}></i>
                             </Link>
                           </div>
                           <h6 className="dlab-title m-t0">
-                            <Link to={`/services-details?slug=${encodeURIComponent(selectedService.slug)}`}>
+                            <Link to={`/services/${encodeURIComponent(selectedService.slug)}`}>
                               {selectedService.shortTitle}
                             </Link>
                           </h6>
@@ -150,13 +176,13 @@ export function AccordionAndCards({ selectedServiceSlug }: { selectedServiceSlug
           <div className="col-lg-4 col-md-6 col-sm-6 p-lr0" key={item.slug}>
             <div className="icon-bx-wraper center p-a30 bg-gray">
               <div className="icon-lg radius m-b20">
-                <Link to={`/services-details?slug=${encodeURIComponent(item.slug)}`} className="icon-cell">
+                <Link to={`/services/${encodeURIComponent(item.slug)}`} className="icon-cell">
                   <i className={item.icon}></i>
                 </Link>
               </div>
               <div className="icon-content">
                 <h6 className="dez-tilte">
-                  <Link to={`/services-details?slug=${encodeURIComponent(item.slug)}`}>{item.title}</Link>
+                  <Link to={`/services/${encodeURIComponent(item.slug)}`}>{item.title}</Link>
                 </h6>
                 <p>{item.summary}</p>
               </div>
