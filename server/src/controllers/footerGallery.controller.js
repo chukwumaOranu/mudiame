@@ -6,18 +6,7 @@ const {
   updateFooterGalleryItem,
   deleteFooterGalleryItem,
 } = require('../models/footerGallery.model');
-
-const toAbsoluteUrl = (req, value) => {
-  if (!value) {
-    return value;
-  }
-
-  if (/^https?:\/\//i.test(value)) {
-    return value;
-  }
-
-  return `${req.protocol}://${req.get('host')}${value}`;
-};
+const { toPublicAssetUrl } = require('../utils/publicAssetUrl');
 
 const normalizeUploadedAssets = (req) => {
   const uploaded = Array.isArray(req.uploadedFooterGalleryAssets)
@@ -25,17 +14,26 @@ const normalizeUploadedAssets = (req) => {
     : [];
 
   return uploaded.map((asset) => ({
-    image_url: toAbsoluteUrl(req, asset.image_url),
-    thumbnail_url: toAbsoluteUrl(req, asset.thumbnail_url),
+    image_url: asset.image_url,
+    thumbnail_url: asset.thumbnail_url,
   }));
 };
+
+const normalizeFooterGalleryItemForResponse = (req, item) => ({
+  ...item,
+  image_url: toPublicAssetUrl(req, item.image_url),
+  thumbnail_url: toPublicAssetUrl(req, item.thumbnail_url),
+});
 
 const listFooterGallery = async (req, res) => {
   try {
     const page = Number(req.query.page || 1);
     const pageSize = Number(req.query.pageSize || MAX_FOOTER_GALLERY_ITEMS);
     const data = await listFooterGalleryItems({ page, pageSize, includeInactive: false });
-    return res.status(200).json(data);
+    return res.status(200).json({
+      ...data,
+      items: data.items.map((item) => normalizeFooterGalleryItemForResponse(req, item)),
+    });
   } catch (error) {
     return res.status(500).json({ message: 'Unable to fetch footer gallery items.', error: error.message });
   }
@@ -46,7 +44,10 @@ const listFooterGalleryAdmin = async (req, res) => {
     const page = Number(req.query.page || 1);
     const pageSize = Number(req.query.pageSize || MAX_FOOTER_GALLERY_ITEMS);
     const data = await listFooterGalleryItems({ page, pageSize, includeInactive: true });
-    return res.status(200).json(data);
+    return res.status(200).json({
+      ...data,
+      items: data.items.map((item) => normalizeFooterGalleryItemForResponse(req, item)),
+    });
   } catch (error) {
     return res.status(500).json({ message: 'Unable to fetch footer gallery items.', error: error.message });
   }
@@ -99,8 +100,8 @@ const updateFooterGallery = async (req, res) => {
   try {
     const uploadedAsset = req.uploadedFooterGalleryAsset
       ? {
-          image_url: toAbsoluteUrl(req, req.uploadedFooterGalleryAsset.image_url),
-          thumbnail_url: toAbsoluteUrl(req, req.uploadedFooterGalleryAsset.thumbnail_url),
+          image_url: req.uploadedFooterGalleryAsset.image_url,
+          thumbnail_url: req.uploadedFooterGalleryAsset.thumbnail_url,
         }
       : null;
 

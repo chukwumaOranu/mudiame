@@ -5,6 +5,7 @@ const {
   updatePortfolioItem,
   deletePortfolioItem,
 } = require('../models/portfolio.model');
+const { toPublicAssetUrl } = require('../utils/publicAssetUrl');
 
 const normalizeImageUrls = (req) => {
   const uploaded = Array.isArray(req.uploadedPortfolioImageUrls)
@@ -12,7 +13,7 @@ const normalizeImageUrls = (req) => {
     : [];
 
   if (uploaded.length) {
-    return uploaded.map((url) => `${req.protocol}://${req.get('host')}${url}`);
+    return uploaded;
   }
 
   if (req.body.image_url) {
@@ -22,6 +23,11 @@ const normalizeImageUrls = (req) => {
   return [];
 };
 
+const normalizePortfolioItemForResponse = (req, item) => ({
+  ...item,
+  image_url: toPublicAssetUrl(req, item.image_url),
+});
+
 const listPortfolio = async (req, res) => {
   try {
     const page = Number(req.query.page || 1);
@@ -30,7 +36,10 @@ const listPortfolio = async (req, res) => {
     const category = req.query.category ? String(req.query.category) : null;
 
     const data = await listPortfolioItems({ page, pageSize, status, includeInactive: false, category });
-    return res.status(200).json(data);
+    return res.status(200).json({
+      ...data,
+      items: data.items.map((item) => normalizePortfolioItemForResponse(req, item)),
+    });
   } catch (error) {
     return res.status(500).json({ message: 'Unable to fetch portfolio items.', error: error.message });
   }
@@ -50,7 +59,10 @@ const listPortfolioAdmin = async (req, res) => {
       includeInactive: true,
       category,
     });
-    return res.status(200).json(data);
+    return res.status(200).json({
+      ...data,
+      items: data.items.map((item) => normalizePortfolioItemForResponse(req, item)),
+    });
   } catch (error) {
     return res.status(500).json({ message: 'Unable to fetch portfolio items.', error: error.message });
   }
@@ -102,7 +114,7 @@ const updatePortfolio = async (req, res) => {
 
   try {
     const imageUrl = req.uploadedPortfolioImageUrl
-      ? `${req.protocol}://${req.get('host')}${req.uploadedPortfolioImageUrl}`
+      ? req.uploadedPortfolioImageUrl
       : req.body.image_url;
 
     const updated = await updatePortfolioItem(itemId, {

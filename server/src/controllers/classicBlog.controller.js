@@ -6,6 +6,7 @@ const {
   listPosts,
   getPostBySlug,
 } = require('../models/classicBlog.model');
+const { toPublicAssetUrl } = require('../utils/publicAssetUrl');
 
 const parseJsonSafely = (value, fallback) => {
   if (value === undefined || value === null || value === '') {
@@ -44,6 +45,17 @@ const toMysqlDateTime = (value) => {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 };
 
+const normalizePostForResponse = (req, post) => {
+  if (!post) {
+    return post;
+  }
+
+  return {
+    ...post,
+    featured_image_url: toPublicAssetUrl(req, post.featured_image_url),
+  };
+};
+
 const normalizeCreatePayload = (req) => {
   const categoriesFromJson = parseJsonSafely(req.body.categories, null);
   const categories =
@@ -64,7 +76,7 @@ const normalizeCreatePayload = (req) => {
         };
 
   const featuredImageUrl = req.uploadedFeaturedImageUrl
-    ? `${req.protocol}://${req.get('host')}${req.uploadedFeaturedImageUrl}`
+    ? req.uploadedFeaturedImageUrl
     : req.body.featured_image_url || null;
 
   return {
@@ -102,7 +114,7 @@ const normalizeUpdatePayload = (req) => {
   }
 
   if (req.uploadedFeaturedImageUrl) {
-    payload.featured_image_url = `${req.protocol}://${req.get('host')}${req.uploadedFeaturedImageUrl}`;
+    payload.featured_image_url = req.uploadedFeaturedImageUrl;
   } else if (req.body.featured_image_url !== undefined) {
     payload.featured_image_url = req.body.featured_image_url;
   }
@@ -118,7 +130,10 @@ const listClassicBlogPosts = async (req, res) => {
     const includeDraft = req.query.includeDraft === 'true';
 
     const data = await listPosts({ page, pageSize, status, includeDraft });
-    return res.status(200).json(data);
+    return res.status(200).json({
+      ...data,
+      items: data.items.map((item) => normalizePostForResponse(req, item)),
+    });
   } catch (error) {
     return res.status(500).json({ message: 'Unable to fetch posts.', error: error.message });
   }
@@ -131,7 +146,7 @@ const getClassicBlogPost = async (req, res) => {
       return res.status(404).json({ message: 'Post not found.' });
     }
 
-    return res.status(200).json({ item: post });
+    return res.status(200).json({ item: normalizePostForResponse(req, post) });
   } catch (error) {
     return res.status(500).json({ message: 'Unable to fetch post.', error: error.message });
   }
