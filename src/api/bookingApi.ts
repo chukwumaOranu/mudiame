@@ -48,6 +48,21 @@ export const createBookingRequest = async (
   return parseJson(response);
 };
 
+export const verifyBookingPayment = async (
+  reference: string
+): Promise<{
+  message: string;
+  booking: BookingRecord | null;
+  payment: {
+    status: BookingRecord["payment_status"] | "pending";
+    reference: string;
+    gateway_status: string | null;
+  };
+}> => {
+  const response = await fetch(`${API_BASE_URL}/api/bookings/verify/${encodeURIComponent(reference)}`);
+  return parseJson(response);
+};
+
 export const getAdminBookings = async (): Promise<{ items: BookingRecord[] }> => {
   const response = await fetch(`${API_BASE_URL}/api/bookings/admin`, {
     headers: authHeaders(),

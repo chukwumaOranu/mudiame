@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 import { IMAGE } from "../constent/theme";
 import { Step, Stepper } from "react-form-stepper";
+import { useSearchParams } from "react-router-dom";
 import CommonBanner from "../element/CommonBanner";
 import BookingPage1 from "../element/BookingPage1";
 import BookingPage2 from "../element/BookingPage2";
@@ -14,7 +15,9 @@ import {
   FALLBACK_BOOKING_OPTIONS,
   createBookingRequest,
   getPublicBookingOptions,
+  verifyBookingPayment,
 } from "../api/bookingApi";
+import type { BookingRecord } from "../types/booking";
 import Seo from "../components/Seo";
 
 const convertDisplayTimeToSqlTime = (value: string) => {
@@ -48,6 +51,7 @@ const buildSelectedSlot = (preferredDate: string, selectedSlot: string) => {
 };
 
 const Booking = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [stepper, setStepper] = useState(0);
   const [form, setForm] = useState({
     category: "",
@@ -64,6 +68,9 @@ const Booking = () => {
     paymentMethod: "pay_on_pickup" as const,
   });
   const [submitError, setSubmitError] = useState("");
+  const [completedBooking, setCompletedBooking] = useState<BookingRecord | null>(null);
+  const [paymentMessage, setPaymentMessage] = useState("");
+  const [isVerifyingPayment, setIsVerifyingPayment] = useState(false);
   const bookingOptionsQuery = useQuery({
     queryKey: ["booking", "options"],
     queryFn: getPublicBookingOptions,
@@ -90,9 +97,13 @@ const Booking = () => {
       }),
     onSuccess: (data) => {
       setSubmitError("");
+      setCompletedBooking(data.booking);
       if (data.payment.required && data.payment.authorization_url) {
-        window.open(data.payment.authorization_url, "_blank", "noopener,noreferrer");
+        setPaymentMessage("Redirecting you to Paystack to complete your payment...");
+        window.location.assign(data.payment.authorization_url);
+        return;
       }
+      setPaymentMessage("Your booking has been created successfully.");
       setStepper(4);
     },
     onError: (error) => setSubmitError((error as Error).message),
@@ -118,6 +129,58 @@ const Booking = () => {
       };
     });
   }, [bookingProducts]);
+
+  useEffect(() => {
+    const reference = searchParams.get("reference");
+    const paymentSource = searchParams.get("payment");
+
+    if (!reference || paymentSource !== "callback") {
+      return;
+    }
+
+    let isActive = true;
+
+    const runVerification = async () => {
+      try {
+        setIsVerifyingPayment(true);
+        setSubmitError("");
+        const result = await verifyBookingPayment(reference);
+        if (!isActive) {
+          return;
+        }
+
+        setCompletedBooking(result.booking);
+        if (result.payment.status === "paid") {
+          setPaymentMessage(result.message);
+          setStepper(4);
+        } else {
+          setPaymentMessage("");
+          setStepper(3);
+          setSubmitError(result.message);
+        }
+      } catch (error) {
+        if (!isActive) {
+          return;
+        }
+        setSubmitError((error as Error).message);
+        setPaymentMessage("");
+      } finally {
+        if (!isActive) {
+          return;
+        }
+        setIsVerifyingPayment(false);
+        const nextParams = new URLSearchParams(searchParams);
+        nextParams.delete("payment");
+        setSearchParams(nextParams, { replace: true });
+      }
+    };
+
+    void runVerification();
+
+    return () => {
+      isActive = false;
+    };
+  }, [searchParams, setSearchParams]);
 
   function goToPreviousStep() {
     setStepper(() => (stepper > 0 ? stepper - 1 : stepper));
@@ -169,6 +232,7 @@ const Booking = () => {
             <div className="container">
               <div id="smartwizard">
                 {bookingOptionsQuery.isLoading && <p>Loading booking options...</p>}
+                {isVerifyingPayment && <p>Verifying your payment with Paystack...</p>}
                 {bookingOptionsQuery.isError && (
                   <p className="admin-form-error">
                     Live booking options could not be loaded, so fallback products are being shown.
@@ -221,7 +285,7 @@ const Booking = () => {
                   {stepper === 1 && <BookingPage2 form={form} setForm={setForm} />}
                   {stepper === 2 && <BookingPage3 form={form} setForm={setForm} amountNgn={selectedProduct?.amount_ngn || null} />}
                   {stepper === 3 && <BookingPage4 form={form} setForm={setForm} paymentOptions={BOOKING_PAYMENT_OPTIONS} amountNgn={selectedProduct?.amount_ngn || null} />}
-                  {stepper === 4 && <BookingPage5 bookingResult={bookingMutation.data?.booking || null} />}
+                  {stepper === 4 && <BookingPage5 bookingResult={completedBooking || bookingMutation.data?.booking || null} paymentMessage={paymentMessage} />}
                 </div>
                 </>
                 )}

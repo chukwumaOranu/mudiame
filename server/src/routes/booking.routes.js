@@ -7,6 +7,8 @@ const {
   createAdminBookingCatalog,
   updateAdminBookingCatalog,
   createPublicBooking,
+  verifyPublicBookingPayment,
+  handlePaystackWebhook,
   listAdminBookings,
   updateAdminBookingStatus,
 } = require('../controllers/booking.controller');
@@ -16,6 +18,8 @@ const router = express.Router();
 
 router.get('/options', listPublicBookingOptions);
 router.post('/', bookingValidation, createPublicBooking);
+router.get('/verify/:reference', verifyPublicBookingPayment);
+router.post('/webhook/paystack', handlePaystackWebhook);
 router.get('/admin/catalog', authMiddleware, requirePermission('bookings.read'), listAdminBookingCatalog);
 router.post('/admin/catalog', authMiddleware, requirePermission('bookings.update'), bookingCatalogValidation, createAdminBookingCatalog);
 router.put('/admin/catalog/:id', authMiddleware, requirePermission('bookings.update'), updateAdminBookingCatalog);

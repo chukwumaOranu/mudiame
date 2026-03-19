@@ -92,6 +92,19 @@ const getBookingById = async (bookingId) => {
   return rows[0] ? mapBooking(rows[0]) : null;
 };
 
+const getBookingByReference = async (reference) => {
+  const [rows] = await dbPool.execute(
+    `SELECT *
+     FROM booking_requests
+     WHERE booking_reference = ? OR payment_reference = ?
+     ORDER BY id DESC
+     LIMIT 1`,
+    [reference, reference]
+  );
+
+  return rows[0] ? mapBooking(rows[0]) : null;
+};
+
 const updateBookingPayment = async (bookingId, payload) => {
   await dbPool.execute(
     `UPDATE booking_requests
@@ -158,6 +171,7 @@ const updateBookingStatus = async ({ bookingId, status, changedBy, changeNote })
 module.exports = {
   createBookingRequest,
   getBookingById,
+  getBookingByReference,
   updateBookingPayment,
   listBookingRequests,
   updateBookingStatus,

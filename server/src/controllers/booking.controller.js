@@ -2,6 +2,7 @@ const { body, validationResult } = require('express-validator');
 const {
   createBookingRequest,
   getBookingById,
+  getBookingByReference,
   updateBookingPayment,
   listBookingRequests,
   updateBookingStatus,
@@ -13,7 +14,12 @@ const {
   updateBookingCatalogItem,
 } = require('../models/bookingCatalog.model');
 const { sendEmail, isEmailConfigured } = require('../utils/email');
-const { initializePaystackTransaction, isPaystackConfigured } = require('../utils/paystack');
+const {
+  initializePaystackTransaction,
+  isPaystackConfigured,
+  verifyPaystackTransaction,
+  isValidPaystackSignature,
+} = require('../utils/paystack');
 
 const bookingValidation = [
   body('customer_name').trim().notEmpty().withMessage('Customer name is required.'),
@@ -126,6 +132,47 @@ const sendBookingCompletedEmail = async (booking) => {
   });
 };
 
+const getBookingPaymentStateFromPaystack = (paystackData) => {
+  const status = String(paystackData?.status || '').toLowerCase();
+
+  if (status === 'success') {
+    return 'paid';
+  }
+
+  if (['failed', 'abandoned', 'reversed'].includes(status)) {
+    return 'failed';
+  }
+
+  return 'pending';
+};
+
+const syncBookingWithPaystackData = async (booking, paystackData, changedBy = 'paystack') => {
+  if (!booking) {
+    return null;
+  }
+
+  const paymentStatus = getBookingPaymentStateFromPaystack(paystackData);
+  await updateBookingPayment(booking.id, {
+    payment_status: paymentStatus,
+    payment_reference: paystackData?.reference || booking.payment_reference || booking.booking_reference,
+    payment_authorization_url: booking.payment_authorization_url,
+  });
+
+  if (
+    paymentStatus === 'paid' &&
+    booking.status === 'pending'
+  ) {
+    await updateBookingStatus({
+      bookingId: booking.id,
+      status: 'confirmed',
+      changedBy,
+      changeNote: 'Payment verified via Paystack',
+    });
+  }
+
+  return getBookingById(booking.id);
+};
+
 const listPublicBookingOptions = async (_req, res) => {
   try {
     const items = await listBookingCatalogItems({ activeOnly: true });
@@ -224,7 +271,7 @@ const createPublicBooking = async (req, res) => {
         email: req.body.customer_email,
         amountNgn: amount_ngn || 0,
         reference: created.booking_reference,
-        callbackUrl: `${process.env.CLIENT_URL || 'http://localhost:5173'}/booking?reference=${created.booking_reference}`,
+        callbackUrl: `${process.env.CLIENT_URL || 'http://localhost:5173'}/booking?reference=${created.booking_reference}&payment=callback`,
         metadata: {
           booking_reference: created.booking_reference,
           customer_name: req.body.customer_name,
@@ -261,6 +308,79 @@ const createPublicBooking = async (req, res) => {
       message: 'Unable to create booking.',
       error: error.message,
     });
+  }
+};
+
+const verifyPublicBookingPayment = async (req, res) => {
+  const reference = String(req.params.reference || req.query.reference || '').trim();
+  if (!reference) {
+    return res.status(400).json({ message: 'Payment reference is required.' });
+  }
+
+  try {
+    const booking = await getBookingByReference(reference);
+    if (!booking) {
+      return res.status(404).json({ message: 'Booking not found for this payment reference.' });
+    }
+
+    const paystackData = await verifyPaystackTransaction(reference);
+    const updatedBooking = await syncBookingWithPaystackData(booking, paystackData, 'callback');
+
+    return res.status(200).json({
+      message:
+        updatedBooking?.payment_status === 'paid'
+          ? 'Payment verified successfully.'
+          : 'Payment is not yet successful.',
+      booking: updatedBooking,
+      payment: {
+        status: updatedBooking?.payment_status || 'pending',
+        reference: paystackData?.reference || reference,
+        gateway_status: paystackData?.status || null,
+      },
+    });
+  } catch (error) {
+    return res.status(error.status || 500).json({
+      message: 'Unable to verify payment right now.',
+      error: error.message,
+    });
+  }
+};
+
+const handlePaystackWebhook = async (req, res) => {
+  const signature = req.headers['x-paystack-signature'];
+  const rawPayload = req.rawBody || '';
+
+  if (!isValidPaystackSignature(rawPayload, signature)) {
+    return res.status(401).json({ message: 'Invalid Paystack signature.' });
+  }
+
+  const event = req.body;
+  const reference = event?.data?.reference;
+
+  if (!reference) {
+    return res.status(200).json({ received: true });
+  }
+
+  try {
+    const booking = await getBookingByReference(reference);
+    if (!booking) {
+      return res.status(200).json({ received: true });
+    }
+
+    if (event.event === 'charge.success') {
+      const paystackData = await verifyPaystackTransaction(reference);
+      await syncBookingWithPaystackData(booking, paystackData, 'webhook');
+    } else if (event.event === 'charge.failed') {
+      await updateBookingPayment(booking.id, {
+        payment_status: 'failed',
+        payment_reference: reference,
+        payment_authorization_url: booking.payment_authorization_url,
+      });
+    }
+
+    return res.status(200).json({ received: true });
+  } catch (error) {
+    return res.status(500).json({ message: 'Unable to process Paystack webhook.', error: error.message });
   }
 };
 
@@ -315,6 +435,8 @@ module.exports = {
   createAdminBookingCatalog,
   updateAdminBookingCatalog,
   createPublicBooking,
+  verifyPublicBookingPayment,
+  handlePaystackWebhook,
   listAdminBookings,
   updateAdminBookingStatus,
 };
