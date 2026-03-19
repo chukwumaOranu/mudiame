@@ -20,7 +20,16 @@ const listUsers = async () => {
      LEFT JOIN app_roles r ON r.id = ur.role_id
      LEFT JOIN app_user_permissions up ON up.user_id = u.id
      LEFT JOIN app_permissions p ON p.id = up.permission_id
-     GROUP BY u.id
+     GROUP BY
+      u.id,
+      u.full_name,
+      u.username,
+      u.email,
+      u.phone,
+      u.status,
+      u.is_email_verified,
+      u.last_login_at,
+      u.created_at
      ORDER BY u.created_at DESC`
   );
 

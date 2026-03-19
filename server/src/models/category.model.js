@@ -46,7 +46,14 @@ const listCategories = async () => {
       COUNT(pc.post_id) AS post_count
      FROM classic_blog_categories c
      LEFT JOIN classic_blog_post_categories pc ON pc.category_id = c.id
-     GROUP BY c.id
+     GROUP BY
+      c.id,
+      c.name,
+      c.slug,
+      c.description,
+      c.is_active,
+      c.created_at,
+      c.updated_at
      ORDER BY c.name ASC`
   );
 

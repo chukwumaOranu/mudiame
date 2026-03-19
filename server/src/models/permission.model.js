@@ -16,7 +16,7 @@ const listPermissions = async () => {
             COUNT(up.user_id) AS user_count
      FROM app_permissions p
      LEFT JOIN app_user_permissions up ON up.permission_id = p.id
-     GROUP BY p.id
+     GROUP BY p.id, p.permission_key, p.permission_name, p.description
      ORDER BY p.permission_key ASC`
   );
 

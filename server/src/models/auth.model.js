@@ -9,7 +9,16 @@ const getUserByIdentifier = async (identifier) => {
      LEFT JOIN app_user_roles ur ON ur.user_id = u.id
      LEFT JOIN app_roles r ON r.id = ur.role_id
      WHERE u.username = ? OR u.email = ?
-     GROUP BY u.id
+     GROUP BY
+      u.id,
+      u.full_name,
+      u.username,
+      u.email,
+      u.phone,
+      u.password_hash,
+      u.status,
+      u.is_email_verified,
+      u.last_login_at
      LIMIT 1`,
     [identifier, identifier]
   );
@@ -26,7 +35,15 @@ const getUserById = async (userId) => {
      LEFT JOIN app_user_roles ur ON ur.user_id = u.id
      LEFT JOIN app_roles r ON r.id = ur.role_id
      WHERE u.id = ?
-     GROUP BY u.id
+     GROUP BY
+      u.id,
+      u.full_name,
+      u.username,
+      u.email,
+      u.phone,
+      u.status,
+      u.is_email_verified,
+      u.last_login_at
      LIMIT 1`,
     [userId]
   );

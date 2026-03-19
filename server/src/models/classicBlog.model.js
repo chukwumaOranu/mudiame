@@ -361,7 +361,24 @@ const listPosts = async ({ page = 1, pageSize = 12, status = 'published', includ
      LEFT JOIN classic_blog_post_categories pc ON pc.post_id = p.id
      LEFT JOIN classic_blog_categories c ON c.id = pc.category_id
      ${whereClause}
-     GROUP BY p.id
+     GROUP BY
+      p.id,
+      p.author_id,
+      p.title,
+      p.slug,
+      p.excerpt,
+      p.content,
+      p.featured_image_url,
+      p.published_at,
+      p.status,
+      p.created_at,
+      p.updated_at,
+      a.display_name,
+      a.slug,
+      a.avatar_url,
+      m.comment_count,
+      m.view_count,
+      m.share_count
      ORDER BY COALESCE(p.published_at, p.created_at) DESC
      LIMIT ${limit} OFFSET ${offset}`,
     params
@@ -402,7 +419,24 @@ const getPostBySlug = async (slug) => {
      LEFT JOIN classic_blog_post_categories pc ON pc.post_id = p.id
      LEFT JOIN classic_blog_categories c ON c.id = pc.category_id
      WHERE p.slug = ?
-     GROUP BY p.id
+     GROUP BY
+      p.id,
+      p.author_id,
+      p.title,
+      p.slug,
+      p.excerpt,
+      p.content,
+      p.featured_image_url,
+      p.published_at,
+      p.status,
+      p.created_at,
+      p.updated_at,
+      a.display_name,
+      a.slug,
+      a.avatar_url,
+      m.comment_count,
+      m.view_count,
+      m.share_count
      LIMIT 1`,
     [slug]
   );
