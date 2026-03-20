@@ -3,25 +3,25 @@ import { IMAGE } from "../constent/theme";
 import { Autoplay, Pagination } from "swiper/modules";
 
 const teameSlider = [
-  { img: IMAGE.our_teamePic1, name: "Charlotte", text: "Make Up Artist" },
-  { img: IMAGE.our_teamePic2, name: "Jennifer", text: "Cosmetologist" },
-  { img: IMAGE.our_teamePic3, name: "Roxie Burton", text: "Make Up Artist" },
+  { img: IMAGE.our_teamePic1, name: "Lu Iduoze", text: "Founder and CEO" },
+  { img: IMAGE.our_teamePic2, name: "Lu Iduoze", text: "Founder and CEO" },
+  { img: IMAGE.our_teamePic3, name: "Lu Iduoze", text: "Founder and CEO" },
   {
     img: IMAGE.our_teamePic4,
-    name: "Evelyn Martinez",
-    text: "Fashion Designer",
+    name: "Lu Iduoze",
+    text: "Founder and CEO",
   },
-  { img: IMAGE.our_teamePic5, name: "Diane Mateo", text: "Fashion Designer" },
-  { img: IMAGE.our_teamePic1, name: "Charlotte", text: "Make Up Artist" },
-  { img: IMAGE.our_teamePic2, name: "Jennifer", text: "Cosmetologist" },
-  { img: IMAGE.our_teamePic3, name: "Roxie Burton", text: "Make Up Artist" },
+  { img: IMAGE.our_teamePic5, name: "Lu Iduoze", text: "Founder and CEO" },
+  { img: IMAGE.our_teamePic1, name: "Lu Iduoze", text: "Founder and CEO" },
+  { img: IMAGE.our_teamePic2, name: "Lu Iduoze", text: "Founder and CEO" },
+  { img: IMAGE.our_teamePic3, name: "Lu Iduoze", text: "Founder and CEO" },
   {
     img: IMAGE.our_teamePic4,
-    name: "Evelyn Martinez",
-    text: "Fashion Designer",
+    name: "Lu Iduoze",
+    text: "Founder and CEO",
   },
-  { img: IMAGE.our_teamePic1, name: "Charlotte", text: "Make Up Artist" },
-  { img: IMAGE.our_teamePic5, name: "Diane Mateo", text: "Fashion Designer" },
+  { img: IMAGE.our_teamePic1, name: "Lu Iduoze", text: "Founder and CEO" },
+  { img: IMAGE.our_teamePic5, name: "Lu Iduoze", text: "Founder and CEO" },
 ];
 
 const OurTeamslider = () => {
