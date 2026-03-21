@@ -115,7 +115,7 @@ const Home2 = () => {
                 </p>
                 <Link
                   to="/services"
-                  className="site-button white outline outline-2"
+                  className="site-button white"
                 >
                   Read More
                 </Link>
