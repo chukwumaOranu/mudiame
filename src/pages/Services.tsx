@@ -73,7 +73,7 @@ const Services = () => {
                         <OurTeamslider />
                     </div>
                 </div>
-                <div className="section-full video-presentation overlay-black-dark bg-img-fix" style={{ backgroundImage: `url(${IMAGE.backgroundBgImg})` }}>
+                {/* <div className="section-full video-presentation overlay-black-dark bg-img-fix" style={{ backgroundImage: `url(${IMAGE.backgroundBgImg})` }}>
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-12 col-md-12 text-white text-center">
@@ -88,7 +88,7 @@ const Services = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div className="section-full content-inner overlay-white-middle" style={{ backgroundImage: `url(${IMAGE.backgroundBg1}), url(${IMAGE.backgroundBg2})`, backgroundPosition: 'bottom, top', backgroundSize: '100%', backgroundRepeat: 'no-repeat', position: "relative" }}>
                     <div className="container">
                         <div className="section-head text-black text-center">
