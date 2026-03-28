@@ -5,12 +5,27 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { useClassicBlogPostsQuery } from "../hooks/useClassicBlog";
 
-const fallbackImage = IMAGE.blog_gridPic1;
-
 const OurBlogSlider = () => {
   const swiperRef = useRef<SwiperRef | null>(null);
   const blogQuery = useClassicBlogPostsQuery(1, 8);
+
+  if (blogQuery.isLoading) {
+    return null;
+  }
+
+  if (blogQuery.isError) {
+    return (
+      <p style={{ marginBottom: "20px", color: "#9f1c1c" }}>
+        Unable to load blog posts right now.
+      </p>
+    );
+  }
+
   const blogItems = blogQuery.data?.items || [];
+
+  if (!blogItems.length) {
+    return null;
+  }
 
   const formatDate = (value: string | null) => {
     if (!value) {
@@ -55,13 +70,17 @@ const OurBlogSlider = () => {
               <div className="blog-post blog-grid blog-style-1">
                 <div className="dlab-post-media dlab-img-effect radius-sm">
                   <Link to={`/blog/${encodeURIComponent(item.slug)}`}>
-                    <img
-                      width="700"
-                      height="500"
-                      src={item.featured_image_url || fallbackImage}
-                      alt={item.title}
-                    />
-                  </Link>{" "}
+                    {item.featured_image_url ? (
+                      <img
+                        width="700"
+                        height="500"
+                        src={item.featured_image_url}
+                        alt={item.title}
+                      />
+                    ) : (
+                      <div className="blog-no-image" aria-hidden="true" />
+                    )}
+                  </Link>
                 </div>
                 <div className="dlab-info">
                   <div className="dlab-post-meta">

@@ -30,18 +30,31 @@ const FooterGalleryCarousel = ({
   const footerGalleryQuery = useFooterGalleryItemsQuery(1, fallbackItems.length);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
+  if (footerGalleryQuery.isLoading) {
+    // Avoid showing fallback default images while endpoint data is loading
+    return null;
+  }
+
+  if (footerGalleryQuery.isError) {
+    // Don't show fallback images when the endpoint fails
+    return null;
+  }
+
   const items = useMemo(() => {
-    const remoteItems = footerGalleryQuery.data?.items || [];
-    if (remoteItems.length) {
-      return remoteItems.map((item) => ({
-        image_url: item.image_url,
-        thumbnail_url: item.thumbnail_url || item.image_url,
-        title: item.title,
-      }));
+    if (!footerGalleryQuery.isSuccess) {
+      return [];
     }
 
-    return fallbackItems;
-  }, [fallbackItems, footerGalleryQuery.data?.items]);
+    const remoteItems = footerGalleryQuery.data?.items || [];
+
+    return remoteItems
+      .filter((item) => item.image_url)
+      .map((item) => ({
+        image_url: item.image_url,
+        thumbnail_url: item.thumbnail_url || item.image_url,
+        title: item.title || '',
+      }));
+  }, [footerGalleryQuery.isSuccess, footerGalleryQuery.data?.items]);
 
   const activeImage = selectedIndex !== null ? items[selectedIndex] : null;
 
