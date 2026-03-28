@@ -30,16 +30,6 @@ const FooterGalleryCarousel = ({
   const footerGalleryQuery = useFooterGalleryItemsQuery(1, fallbackItems.length);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  if (footerGalleryQuery.isLoading) {
-    // Avoid showing fallback default images while endpoint data is loading
-    return null;
-  }
-
-  if (footerGalleryQuery.isError) {
-    // Don't show fallback images when the endpoint fails
-    return null;
-  }
-
   const items = useMemo(() => {
     if (!footerGalleryQuery.isSuccess) {
       return [];
@@ -55,6 +45,10 @@ const FooterGalleryCarousel = ({
         title: item.title || '',
       }));
   }, [footerGalleryQuery.isSuccess, footerGalleryQuery.data?.items]);
+
+  if (footerGalleryQuery.isLoading || footerGalleryQuery.isError || !items.length) {
+    return null;
+  }
 
   const activeImage = selectedIndex !== null ? items[selectedIndex] : null;
 
