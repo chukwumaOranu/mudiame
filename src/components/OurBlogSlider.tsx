@@ -1,5 +1,4 @@
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
-import { IMAGE } from "../constent/theme";
 import { Autoplay, Navigation } from "swiper/modules";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
