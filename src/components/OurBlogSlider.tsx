@@ -9,7 +9,11 @@ const OurBlogSlider = () => {
   const blogQuery = useClassicBlogPostsQuery(1, 8);
 
   if (blogQuery.isLoading) {
-    return null;
+    return (
+      <p style={{ marginBottom: "20px", color: "#555" }}>
+        Loading blog posts...
+      </p>
+    );
   }
 
   if (blogQuery.isError) {
@@ -23,7 +27,11 @@ const OurBlogSlider = () => {
   const blogItems = blogQuery.data?.items || [];
 
   if (!blogItems.length) {
-    return null;
+    return (
+      <p style={{ marginBottom: "20px", color: "#555" }}>
+        No published blog posts available yet.
+      </p>
+    );
   }
 
   const formatDate = (value: string | null) => {
@@ -44,11 +52,6 @@ const OurBlogSlider = () => {
   return (
     <>
       <div style={{ position: "relative" }}>
-        {blogQuery.isError && (
-          <p style={{ marginBottom: "20px", color: "#9f1c1c" }}>
-            Unable to load blog posts right now.
-          </p>
-        )}
         <Swiper
           className="blog-carousel owl-carousel owl-btn-center-lr owl-btn-3 owl-theme owl-btn-1"
           slidesPerView={3}
