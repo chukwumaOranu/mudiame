@@ -15,6 +15,7 @@ const portfolioRoutes = require("./src/routes/portfolio.routes");
 const footerGalleryRoutes = require("./src/routes/footerGallery.routes");
 const bookingRoutes = require("./src/routes/booking.routes");
 const contactRoutes = require("./src/routes/contact.routes");
+const { testDbConnection } = require("./config/db.config");
 
 const app = express();
 app.set("trust proxy", 1);
@@ -84,4 +85,7 @@ app.use("/api/contact", contactRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+  testDbConnection().catch((error) => {
+    console.error("MySQL connection failed:", error.message);
+  });
 });
