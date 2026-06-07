@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import Menu2 from "../element/Menu2";
 import { IMAGE } from "../constent/theme";
 
@@ -27,58 +26,9 @@ const Header2 = () => {
             <div className="dlab-topbar-right topbar-social">
               <ul>
                 <li>
-                  <Link
-                    target="_blank"
-                    to="https://www.facebook.com/"
-                    className="site-button-link facebook hover"
-                  >
+                  <a href="#" className="site-button-link facebook hover">
                     <i className="fa fa-facebook"></i>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    target="_blank"
-                    to="https://www.google.com/"
-                    className="site-button-link google-plus hover"
-                  >
-                    <i className="fa fa-google-plus"></i>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    target="_blank"
-                    to="https://twitter.com/"
-                    className="site-button-link twitter hover"
-                  >
-                    <i className="fa fa-twitter"></i>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    target="_blank"
-                    to="https://www.instagram.com/"
-                    className="site-button-link instagram hover"
-                  >
-                    <i className="fa fa-instagram"></i>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    target="_blank"
-                    to="https://www.linkedin.com/"
-                    className="site-button-link linkedin hover"
-                  >
-                    <i className="fa fa-linkedin"></i>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    target="_blank"
-                    to="https://www.youtube.com/"
-                    className="site-button-link youtube hover"
-                  >
-                    <i className="fa fa-youtube-play"></i>
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </div>
