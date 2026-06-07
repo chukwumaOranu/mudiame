@@ -21,14 +21,19 @@ const AboutUs = () => {
                     <div className="section-full content-inner overlay-white-middle" style={{ backgroundImage: `url(${IMAGE.backgroundBg1}), url(${IMAGE.backgroundBg2})`, backgroundPosition: 'bottom, top', backgroundSize: '100%', backgroundRepeat: 'no-repeat' }}>
                         <div className="container">
                             <div className="section-head text-black text-center">
-                                <h2 className="text-primary m-b10">Our Services</h2>
+                                <h2 className="text-primary m-b10">About Mudiame Lush</h2>
                                 <h6 className="m-b10">Proudly Nigerian. Boldly Beautiful.</h6>
                                 <div className="dlab-separator-outer m-b0">
                                     <div className="dlab-separator text-primary style-icon"><i className="flaticon-spa text-primary"></i></div>
                                 </div>
                                 <p>
-                                    Mudiame Lush specializes in branded beauty essentials created to celebrate bold expression and effortless elegance.
-                                    From richly pigmented color products to self-care essentials, our collection is built for quality, affordability, and visible results.
+                                    Mudiame Lush is a proudly Nigerian beauty brand dedicated to enhancing natural beauty through quality makeup and skincare products.
+                                    Founded by a passionate Nigerian entrepreneur, the brand has been serving beauty lovers for several years, building a reputation for 
+                                    excellence, authenticity, and customer satisfaction.
+
+                                    At Mudiame Lush, we believe that beauty is confidence. Our carefully curated products are designed to nourish the skin, elevate every 
+                                    makeup look, and help our customers feel their best every day. With a commitment to quality, innovation, and inclusivity, we continue 
+                                    to provide beauty solutions that celebrate the uniqueness of every individual.
                                 </p>
                             </div>
                             <AboutServices />

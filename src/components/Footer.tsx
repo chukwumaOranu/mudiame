@@ -141,22 +141,7 @@ export const FooterLinks = () => {
                 </div>
                 <ul className="list-inline m-a0">
                   <li>
-                    <a target="_blank" rel="noreferrer" href="https://www.instagram.com/" className="site-button instagram circle ">
-                      <i className="fa fa-instagram"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="mailto:mudiamelush@gmail.com" className="site-button google-plus circle ">
-                      <i className="fa fa-envelope"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="tel:08098866406" className="site-button twitter circle ">
-                      <i className="fa fa-phone"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a target="_blank" rel="noreferrer" href="https://www.facebook.com/" className="site-button facebook circle ">
+                    <a href="#" className="site-button facebook circle ">
                       <i className="fa fa-facebook"></i>
                     </a>
                   </li>

@@ -8,9 +8,10 @@ const OurClient = () => {
                 <div className="dis-tbl-cell  m-b30">
                     <h2 className="m-t0 m-b10">Why Choose Mudiame Lush</h2>
                     <h6 className="fw7 m-b15">
-                        At Mudiame Lush, we believe beauty should be empowering, expressive, and accessible.
-                        Every product we offer is thoughtfully created and carefully selected to help you look
-                        and feel your absolute best every single day.
+                        Mudiame Lush is a proudly Nigerian beauty brand dedicated to enhancing natural beauty through 
+                        quality makeup and skincare products. Founded by a passionate Nigerian entrepreneur, the brand 
+                        has been serving beauty lovers for several years, building a reputation for excellence, 
+                        authenticity, and customer satisfaction.
                     </h6>
                     <ul className="list-angle-right">
                         <li><strong>Proudly Nigerian Brand</strong> - Rooted in Nigeria and inspired by bold beauty, creativity, and confidence.</li>
